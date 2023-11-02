@@ -207,7 +207,7 @@ const handleShowModal = (complaintId) => {
                     <div className="card-header py-3">
                     <p className="text-primary m-0 fw-bold">Complaints</p>
                     </div>
-                    <div className="card-body">
+                    <div className="card-body bg-light">
 
               <table ref={tableRef} className="display" style={{ width: '100%' }}>
                 <thead>

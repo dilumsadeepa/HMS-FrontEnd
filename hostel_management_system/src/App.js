@@ -20,7 +20,7 @@ function App() {
           <Route path="*" element={<PageNotFound/>} />
           <Route path="reports" element={<Report/>} />
           <Route path="/complaints" element={<Complaint/>} />
-          <Route path="/complaint/new" element={<CreateNewComplaint/>} />
+          <Route path="/complaint/create" element={<CreateNewComplaint/>} />
           {/* <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} /> */}
 
