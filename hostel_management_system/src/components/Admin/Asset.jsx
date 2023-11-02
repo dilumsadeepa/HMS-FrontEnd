@@ -190,10 +190,10 @@ const handleShowModal = (complaintId) => {
                 <a
                   className="btn btn-primary btn-sm d-none d-sm-inline-block"
                   role="button"
-                  href="/complaint/create"
+                  href="/addasset"
                 >
                   <i className="fas fa-download fa-sm text-white-50"></i>
-                  &nbsp;New Complaint
+                  &nbsp;Add New Asset
                 </a>
               </div>
 

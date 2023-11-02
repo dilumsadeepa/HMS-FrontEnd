@@ -7,6 +7,7 @@ import Report from "./components/Common/Report";
 // import Register from "./components/User/Register";
 import Complaint from "./components/Admin/Complaint";
 import Asset from "./components/Admin/Asset";
+import AddAsset from "./components/Admin/AddAsset";
 import CreateNewComplaint from "./components/Admin/CreateNewComplaint";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="reports" element={<Report/>} />
           <Route path="/complaints" element={<Complaint/>} />
           <Route path="/asset" element={<Asset/>} />
+          <Route path="/addasset" element={<AddAsset/>} />
           <Route path="/complaint/new" element={<CreateNewComplaint/>} />
           {/* <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} /> */}
