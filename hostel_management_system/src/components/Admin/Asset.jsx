@@ -71,9 +71,8 @@ const Complaint = () => {
           { title: 'Room no', data: 'roomNo' },
           { title: 'Resource Name', data: 'resName' },
           { title: 'Install Date', data: 'installationDate' },
-          { title: 'Last Mainanence', data: 'lastMaintenanceDate' },
+          { title: 'Lastmod date', data: 'lastMaintenanceDate' },
           { title: 'status', data: 'status' },
-          
           {
             title: 'Action',
             data: 'complaintId',
@@ -194,7 +193,7 @@ const handleShowModal = (complaintId) => {
                   href="/complaint/create"
                 >
                   <i className="fas fa-download fa-sm text-white-50"></i>
-                  &nbsp; Add New Asset
+                  &nbsp;New Complaint
                 </a>
               </div>
 
@@ -210,7 +209,9 @@ const handleShowModal = (complaintId) => {
                     <th>Complaint</th>
                     <th>res_ID</th>
                     <th>Complaint Date</th>
-                    <th>Evidence Image</th>
+                    
+                    <th>Status</th>
+                 
                     </tr>
                 </thead>
                 <tbody>
@@ -220,8 +221,7 @@ const handleShowModal = (complaintId) => {
                         <td>{complaint.userIndex}</td>
                         <td>{complaint.complaint}</td>
                         <td>{complaint.resId}</td>
-                        <td>{complaint.complaintDate}</td>
-                        <td>{complaint.evidenceImage}</td>
+                      
                         <td>{complaint.status}</td>
                         <td>
                               <button className='btn btn-sm btn-secondary me-1 view-btn'>
