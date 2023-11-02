@@ -187,10 +187,10 @@ const handleShowModal = (complaintId) => {
           <div id="content">
             <AdminTopBar />
             <div className="container-fluid">
-              <div className="d-sm-flex justify-content-between align-items-center mb-4">
+              <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
                 <h3 className="text-dark mb-0">Dashboard</h3>
                 <a
-                  className="btn btn-primary btn-sm d-none d-sm-inline-block"
+                  className="btn btn-primary btn"
                   role="button"
                   href="/complaint/create"
                 >
@@ -200,7 +200,14 @@ const handleShowModal = (complaintId) => {
               </div>
 
 
-              <h2>Your Resources Content Goes Here</h2>
+          
+
+
+              <div className="card shadow">
+                    <div className="card-header py-3">
+                    <p className="text-primary m-0 fw-bold">Complaints</p>
+                    </div>
+                    <div className="card-body">
 
               <table ref={tableRef} className="display" style={{ width: '100%' }}>
                 <thead>
@@ -242,7 +249,10 @@ const handleShowModal = (complaintId) => {
                 </tbody>
                 </table>
 
-                <DashboardTables />
+                </div>
+                </div>
+{/* 
+                <DashboardTables /> */}
 
 
 
