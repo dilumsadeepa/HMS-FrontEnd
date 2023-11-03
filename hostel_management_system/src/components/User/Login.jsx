@@ -85,7 +85,7 @@ const Login = () => {
                         </a>
                       </div>
                       <div className="text-center">
-                        <a className="small" href="register.html">
+                        <a className="small" href="/register">
                           Create an Account!
                         </a>
                       </div>
