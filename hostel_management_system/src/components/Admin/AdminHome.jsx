@@ -76,7 +76,7 @@ const AdminHome = () => {
                     <div className="card-header py-3">
                       <h6 className="text-primary fw-bold m-0">Projects</h6>
                     </div>
-                    <div className="card-body">
+                    <div className="card-body bg-light">
                       <h4 className="small fw-bold">Server migration</h4>
                       <span className="float-end">20%</span>
                       <div className="progress mb-4">

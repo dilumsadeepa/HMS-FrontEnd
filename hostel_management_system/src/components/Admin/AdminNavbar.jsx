@@ -11,7 +11,7 @@ const AdminNavbar = () => {
         <hr className="sidebar-divider my-0" />
         <ul className="navbar-nav text-light" id="accordionSidebar">
           <li className="nav-item">
-            <a className="nav-link active" href="index.html">
+            <a className="nav-link active" href="/">
               <i className="fas fa-tachometer-alt"></i>
               <span>Dashboard</span>
             </a>
