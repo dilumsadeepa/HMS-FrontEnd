@@ -89,7 +89,8 @@ const Complaint = () => {
                             buttons += `<button class="btn btn-sm btn-secondary me-1 view-btn" data-id="${resId}"><i class="fas fa-eye"></i></button>` +
                                 `<button class="btn btn-sm btn-secondary me-1 edit-btn" data-id="${resId}"><i class="fas fa-pen"></i></button>` +
                                 `<button class="btn btn-sm btn-danger me-1 delete-btn" data-id="${resId}"><i class="fas fa-trash"></i></button>` +
-                                `<button class="btn btn-sm btn-primary me-1 generate-qr-btn" data-id="${resId}">Generate QR Code</button>`;
+                                `<button class="btn btn-sm btn-info me-1 generate-qr-btn" data-id="${resId}"><i class="fa-solid fa-qrcode"></i></button>` ;
+                                // `<button class="btn btn-sm btn-primary me-1 generate-qr-btn" data-id="${resId}">Generate QR Code</button>`;
                             return buttons;
                         },
                     },
