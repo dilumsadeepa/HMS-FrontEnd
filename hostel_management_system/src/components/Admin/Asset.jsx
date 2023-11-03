@@ -209,7 +209,7 @@ const Complaint = () => {
                                     <div className="modal-content">
                                         <div className="modal-header bg-light bg-gradient">
                                             <h5 className="modal-title" id="noticeModalLabel">
-                                                <span className="fw-bold">Complaint Id :</span> {complaintObject.complaintId}
+                                                <span className="fw-bold">Resource Qr Code :</span> {complaintObject.complaintId}
                                             </h5>
                                             <button
                                                 type="button"
@@ -221,7 +221,7 @@ const Complaint = () => {
                                         </div>
                                         <div className="modal-body">
                                             <h2 className="text-center mb-5" style={{ fontFamily: 'Merriweather' }}>Resource ID : {complaintObject.resId}</h2>
-                                            <p className="my-5">Complaint: {complaintObject.complaint}</p>
+                                            <p className="my-5">{complaintObject.complaint}</p>
                                             {qrCodeData && (
                                                 <div className="text-center">
                                                     <QRCode value={qrCodeData} />
