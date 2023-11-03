@@ -22,6 +22,7 @@ function App() {
           <Route path="*" element={<PageNotFound/>} />
           <Route path="reports" element={<Report/>} />
           <Route path="/complaints" element={<Complaint/>} />
+
           <Route path="/complaint/create" element={<CreateNewComplaint/>} />
           <Route path="/asset" element={<Asset/>} />
           <Route path="/addasset" element={<AddAsset/>} />
