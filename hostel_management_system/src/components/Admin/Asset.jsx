@@ -55,7 +55,7 @@ const Complaint = () => {
   useEffect(() => {
     // Fetch your data here, for example:
     const fetchData = async () => {
-      const response = await fetch(`${Apiurl}/complaint/all`);
+      const response = await fetch(`${Apiurl}/res/all`);
       const data = await response.json();
   
       // Destroy existing DataTable (if any)
@@ -67,13 +67,11 @@ const Complaint = () => {
       const table = $(tableRef.current).DataTable({
         data: data,
         columns: [
-          { title: 'Complaint Id', data: 'complaintId' },
-          { title: 'userId', data: 'userId' },
-          { title: 'userIndex', data: 'userIndex' },
-          { title: 'complaint', data: 'complaint' },
-          { title: 'resId', data: 'resId' },
-          { title: 'complaintDate', data: 'complaintDate' },
-          { title: 'evidenceImage', data: 'evidenceImage' },
+          { title: 'Resource Id', data: 'resId' },
+          { title: 'Room no', data: 'roomNo' },
+          { title: 'Resource Name', data: 'resName' },
+          { title: 'Install Date', data: 'installationDate' },
+          { title: 'Lastmod date', data: 'lastMaintenanceDate' },
           { title: 'status', data: 'status' },
           {
             title: 'Action',
@@ -187,27 +185,20 @@ const handleShowModal = (complaintId) => {
           <div id="content">
             <AdminTopBar />
             <div className="container-fluid">
-              <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+              <div className="d-sm-flex justify-content-between align-items-center mb-4">
                 <h3 className="text-dark mb-0">Dashboard</h3>
                 <a
-                  className="btn btn-primary btn"
+                  className="btn btn-primary btn-sm d-none d-sm-inline-block"
                   role="button"
-                  href="/complaint/create"
+                  href="/addasset"
                 >
                   <i className="fas fa-download fa-sm text-white-50"></i>
-                  &nbsp;New Complaint
+                  &nbsp;Add New Asset
                 </a>
               </div>
 
 
-          
-
-
-              <div className="card shadow">
-                    <div className="card-header py-3">
-                    <p className="text-primary m-0 fw-bold">Complaints</p>
-                    </div>
-                    <div className="card-body bg-light">
+              <h2>Your Resources Content Goes Here</h2>
 
               <table ref={tableRef} className="display" style={{ width: '100%' }}>
                 <thead>
@@ -218,9 +209,9 @@ const handleShowModal = (complaintId) => {
                     <th>Complaint</th>
                     <th>res_ID</th>
                     <th>Complaint Date</th>
-                    <th>Evidence Image</th>
+                    
                     <th>Status</th>
-                    <th>Action</th> 
+                 
                     </tr>
                 </thead>
                 <tbody>
@@ -230,8 +221,7 @@ const handleShowModal = (complaintId) => {
                         <td>{complaint.userIndex}</td>
                         <td>{complaint.complaint}</td>
                         <td>{complaint.resId}</td>
-                        <td>{complaint.complaintDate}</td>
-                        <td>{complaint.evidenceImage}</td>
+                      
                         <td>{complaint.status}</td>
                         <td>
                               <button className='btn btn-sm btn-secondary me-1 view-btn'>
@@ -249,10 +239,7 @@ const handleShowModal = (complaintId) => {
                 </tbody>
                 </table>
 
-                </div>
-                </div>
-{/* 
-                <DashboardTables /> */}
+                {/* <DashboardTables /> */}
 
 
 
