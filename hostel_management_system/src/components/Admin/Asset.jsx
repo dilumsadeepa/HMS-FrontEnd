@@ -130,7 +130,6 @@ const Complaint = () => {
         fetchData();
     }, []);
 
-    // ... Other functions ...
 
     return (
         <div id="page-top">
