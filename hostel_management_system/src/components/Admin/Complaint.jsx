@@ -54,14 +54,15 @@ const Complaint = () => {
   
   useEffect(() => {
     // Fetch your data here, for example:
-    const fetchData = async () => {
-      const response = await fetch(`${Apiurl}/complaint/all`);
-      const data = await response.json();
-  
-      // Destroy existing DataTable (if any)
-      if ($.fn.DataTable.isDataTable(tableRef.current)) {
-        $(tableRef.current).DataTable().destroy();
-      }
+ 
+      const fetchData = async () => {
+        const response = await fetch(`${Apiurl}/complaint/all`);
+        const data = await response.json();
+    
+        if ($.fn.DataTable.isDataTable(tableRef.current)) {
+          $(tableRef.current).DataTable().destroy();
+        }
+    
   
       // Initialize DataTable
       const table = $(tableRef.current).DataTable({
@@ -123,13 +124,26 @@ const Complaint = () => {
   }, []);
 
 
+  // const deleteComplaint = async(id) =>{
+  //   console.log(`${Apiurl}/complaint/delete/${id}`);
+  //   try {
+  //     const deleted = await axios.delete(`${Apiurl}/complaint/delete/${id}`);
+  //     console.log(deleted.data);
+  //     // Update the state of the notices array after deleting the notice
+  //     setComplaints(complaints.filter(complaint => complaint.complaintId !== id));
+  //   } catch (error) {
+  //     console.log("error on deleting" + error);
+  //   }
+  // }
+
+
   const deleteComplaint = async(id) =>{
-    console.log(`${Apiurl}/complaint/delete/${id}`);
+    console.log(`${Apiurl}/complaint/markAsDeleted/${id}`);
     try {
-      const deleted = await axios.delete(`${Apiurl}/complaint/delete/${id}`);
+      const deleted = await axios.put(`${Apiurl}/complaint/markAsDeleted/${id}`);
       console.log(deleted.data);
       // Update the state of the notices array after deleting the notice
-      setComplaints(complaints.filter(complaint => complaint.complaintId !== id));
+      // setComplaints(complaints.filter(complaint => complaint.is_deleted !== 1));
     } catch (error) {
       console.log("error on deleting" + error);
     }
