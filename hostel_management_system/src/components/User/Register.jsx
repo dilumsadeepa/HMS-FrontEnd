@@ -1,8 +1,105 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+
+import Apiurl from '../ApiURL';
+
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-    return (
-        <div className="container">
+
+  const [indexNo, setIndexNo] = useState("");
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("");
+  const [mobileNo, setMobileNo] = useState("");
+  const [password, setPassword] = useState("");
+  const [cpassword, setcPassword] = useState("");
+  const [role, setRole] = useState("");
+
+  const [aroles, setARoles] = useState([]);
+
+  const navigate = useNavigate();
+
+
+  const getRoles = async () => {
+    try {
+      const response = await axios.get(`${Apiurl}/roles`);
+      setARoles(response.data);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addUser = async () => {
+    if (indexNo === null || name === null || email === null || mobileNo === null || password === null || role == null) {
+
+        Swal.fire({
+          title: "Error",
+          text: "All the filds are requred",
+          icon: "error",
+          button: "OK",
+        });
+
+
+    } else {
+
+
+      try {
+        if (password === cpassword) {
+          const newUser = await axios.post(`${Apiurl}/users/createWithEncryptedPassword`, {
+            'indexNo': indexNo,
+            'name': name,
+            'email': email,
+            'mobileNo': mobileNo,
+            'password': password,
+            'role': parseInt(role),
+          });
+
+          if (newUser.data == "success") {
+            Swal.fire({
+              title: "Register Successful!",
+              text: newUser.data,
+              icon: "success",
+              button: "OK",
+            }).then(() => {
+              navigate('/');
+
+            });
+          }
+
+        } else {
+          Swal.fire({
+            title: "Error",
+            text: "Passwords are does not Match",
+            icon: "error",
+            button: "OK",
+          });
+
+        }
+      } catch (error) {
+        Swal.fire({
+          title: "Error",
+          text: error,
+          icon: "error",
+          button: "OK",
+        });
+
+      }
+      
+    }
+  };
+
+
+  useEffect(() => {
+    getRoles();
+
+  }, []);
+
+
+
+  return (
+    <div className="container">
       <div className="card shadow-lg o-hidden border-0 my-5">
         <div className="card-body p-0">
           <div className="row">
@@ -25,18 +122,18 @@ const Register = () => {
                       <input
                         className="form-control form-control-user"
                         type="text"
-                        id="exampleFirstName"
-                        placeholder="First Name"
-                        name="first_name"
+                        placeholder="Index Number"
+                        onChange={(e) => setIndexNo(e.target.value)}
+                        required
                       />
                     </div>
                     <div className="col-sm-6">
                       <input
                         className="form-control form-control-user"
                         type="text"
-                        id="exampleLastName"
-                        placeholder="Last Name"
-                        name="last_name"
+                        placeholder="Name"
+                        onChange={(e) => setName(e.target.value)}
+                        required
                       />
                     </div>
                   </div>
@@ -44,10 +141,10 @@ const Register = () => {
                     <input
                       className="form-control form-control-user"
                       type="email"
-                      id="exampleInputEmail"
                       aria-describedby="emailHelp"
                       placeholder="Email Address"
-                      name="email"
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
                     />
                   </div>
                   <div className="row mb-3">
@@ -55,49 +152,64 @@ const Register = () => {
                       <input
                         className="form-control form-control-user"
                         type="password"
-                        id="examplePasswordInput"
                         placeholder="Password"
-                        name="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
                       />
                     </div>
                     <div className="col-sm-6">
                       <input
                         className="form-control form-control-user"
                         type="password"
-                        id="exampleRepeatPasswordInput"
                         placeholder="Repeat Password"
-                        name="password_repeat"
+                        onChange={(e) => setcPassword(e.target.value)}
+                        required
                       />
+                    </div>
+                    <div className="row mt-3">
+                      <div className="col-sm-6">
+                        <input
+                          className="form-control form-control-user"
+                          type="number"
+                          placeholder="Mobile Number"
+                          onChange={(e) => setMobileNo(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="col-sm-6">
+                        <select class="form-select form-control-user"
+                          style={{ color: 'black' }}
+                          onChange={(e) => setRole(e.target.value)}
+                          required>
+                          <option>
+                            Select The Role
+                          </option>
+                          {aroles.map((ro) => (
+                            <option key={ro.id} value={ro.id}>
+                              {ro.roleName}
+                            </option>
+                          ))}
+                          {/* <option></option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option> */}
+                        </select>
+                      </div>
                     </div>
                   </div>
                   <button
                     className="btn btn-primary d-block btn-user w-100"
-                    type="submit"
+                    type="button"
+                    onClick={addUser}
                   >
                     Register Account
                   </button>
                   <hr />
-                  <a
-                    className="btn btn-primary d-block btn-google btn-user w-100 mb-2"
-                    role="button"
-                  >
-                    <i className="fab fa-google"></i>&nbsp; Register with Google
-                  </a>
-                  <a
-                    className="btn btn-primary d-block btn-facebook btn-user w-100"
-                    role="button"
-                  >
-                    <i className="fab fa-facebook-f"></i>&nbsp; Register with Facebook
-                  </a>
+
                   <hr />
                 </form>
                 <div className="text-center">
-                  <a className="small" href="forgot-password.html">
-                    Forgot Password?
-                  </a>
-                </div>
-                <div className="text-center">
-                  <a className="small" href="login.html">
+                  <a className="small" href="/">
                     Already have an account? Login!
                   </a>
                 </div>
@@ -107,7 +219,7 @@ const Register = () => {
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default Register;
