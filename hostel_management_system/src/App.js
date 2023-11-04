@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+
 import AdminHome from "./components/Admin/AdminHome";
 import AdminEmptyContent from "./components/Admin/AdminEmptyContent";
 import PageNotFound from "./components/Common/PageNotFound";
@@ -12,16 +14,22 @@ import UpdateAsset from "./components/Admin/UpdateAsset";
 import CreateNewComplaint from "./components/Admin/CreateNewComplaint";
 import EditComplaint from "./components/Admin/EditComplaint";
 
+
+//maintains
+import Maintains from "./components/Maintains/Maintains";
+import AddMaintaince from "./components/Maintains/AddMaintaince";
+
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<AdminHome/>} />
-          <Route path="/adminempty" element={<AdminEmptyContent/>} />
-          <Route path="/login" element={<Login/>} />
+        <Routes>          
+          <Route path="/" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
-          <Route path="*" element={<PageNotFound/>} />
+          <Route path="/dashboard" element={<AdminHome/>} />
+          <Route path="/adminempty" element={<AdminEmptyContent/>} />
+          
+
           <Route path="reports" element={<Report/>} />
           <Route path="/complaints" element={<Complaint/>} />
 
@@ -32,6 +40,11 @@ function App() {
           <Route path="/updateasset/:assetId" element={<UpdateAsset />} />
 
 
+          {/* maintains */}
+          <Route path="/maintains" element={<Maintains />} />
+          <Route path="/addmaintaince" element={<AddMaintaince />} />
+
+          <Route path="*" element={<PageNotFound/>} />
         </Routes>
       </BrowserRouter>
     </div>
