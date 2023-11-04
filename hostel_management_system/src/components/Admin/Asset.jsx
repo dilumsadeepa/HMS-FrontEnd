@@ -35,7 +35,7 @@ const Complaint = () => {
 
     // Function to generate the QR code for a given resource ID
     const generateQRCode = (resourceId) => {
-        const data = `Resource ID: ${resourceId}`; // Data to encode in the QR code
+        const data = `${resourceId}`; // Data to encode in the QR code
         setQrCodeData(data); // Set the QR code data to display
 
         // Open the modal to display the QR code
