@@ -35,7 +35,7 @@ const Complaint = () => {
 
     // Function to generate the QR code for a given resource ID
     const generateQRCode = (resourceId) => {
-        const data = `Resource ID: ${resourceId}`; // Data to encode in the QR code
+        const data = `${resourceId}`; // Data to encode in the QR code
         setQrCodeData(data); // Set the QR code data to display
 
         // Open the modal to display the QR code
@@ -113,7 +113,7 @@ const Complaint = () => {
 
             $(tableRef.current).on('click', '.edit-btn', function () {
                 const id = $(this).data('id');
-                navigate(`/complaint/edit/${id}`);
+                navigate(`/updateasset/${id}`);
             });
 
             // $(tableRef.current).on('click', '.delete-btn', function () {
@@ -178,9 +178,15 @@ const Complaint = () => {
                                                 <button className='btn btn-sm btn-secondary me-1 view-btn'>
                                                     <i className="fa-solid fa-eye"></i>
                                                 </button>
-                                                <button className='btn btn-sm btn-secondary me-1 edit-btn'>
-                                                    <i className="fa-solid fa-pen-to-square"></i>
-                                                </button>
+                                                <button
+  className='btn btn-sm btn-secondary me-1 edit-btn'
+  onClick={() => navigate(`/complaint/edit/${complaint.complaintId}`)}
+
+>
+  <i className="fa-solid fa-pen-to-square"></i>
+</button>
+
+
                                                 <button className='btn btn-sm btn-danger me-1 delete-btn'>
                                                     <i className="fa-solid fa-trash"></i>
                                                 </button>
