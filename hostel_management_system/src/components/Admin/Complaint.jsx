@@ -123,13 +123,26 @@ const Complaint = () => {
   }, []);
 
 
+  // const deleteComplaint = async(id) =>{
+  //   console.log(`${Apiurl}/complaint/delete/${id}`);
+  //   try {
+  //     const deleted = await axios.delete(`${Apiurl}/complaint/delete/${id}`);
+  //     console.log(deleted.data);
+  //     // Update the state of the notices array after deleting the notice
+  //     setComplaints(complaints.filter(complaint => complaint.complaintId !== id));
+  //   } catch (error) {
+  //     console.log("error on deleting" + error);
+  //   }
+  // }
+
+
   const deleteComplaint = async(id) =>{
-    console.log(`${Apiurl}/complaint/delete/${id}`);
+    console.log(`${Apiurl}/complaint/markAsDeleted/${id}`);
     try {
-      const deleted = await axios.delete(`${Apiurl}/complaint/delete/${id}`);
+      const deleted = await axios.put(`${Apiurl}/complaint/delete/${id}`);
       console.log(deleted.data);
       // Update the state of the notices array after deleting the notice
-      setComplaints(complaints.filter(complaint => complaint.complaintId !== id));
+      setComplaints(complaints.filter(complaint => complaint.is_deleted !== 1));
     } catch (error) {
       console.log("error on deleting" + error);
     }

@@ -9,6 +9,7 @@ import Complaint from "./components/Admin/Complaint";
 import Asset from "./components/Admin/Asset";
 import AddAsset from "./components/Admin/AddAsset";
 import CreateNewComplaint from "./components/Admin/CreateNewComplaint";
+import EditComplaint from "./components/Admin/EditComplaint";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/complaints" element={<Complaint/>} />
 
           <Route path="/complaint/create" element={<CreateNewComplaint/>} />
+          <Route path="/complaint/edit/:id" element={<EditComplaint/>} />
           <Route path="/asset" element={<Asset/>} />
           <Route path="/addasset" element={<AddAsset/>} />
 
