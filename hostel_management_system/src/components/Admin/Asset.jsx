@@ -42,6 +42,18 @@ const Complaint = () => {
         setShowModal(true);
     };
 
+    // Function to download the QR code as an image
+const downloadQRCode = () => {
+  const qrCodeCanvas = document.getElementById('qrCodeCanvas'); // Get the QR code canvas element
+  const qrCodeDataURL = qrCodeCanvas.toDataURL('image/png'); // Convert the canvas to a data URL
+
+  // Create an anchor element to trigger the download
+  const downloadLink = document.createElement('a');
+  downloadLink.href = qrCodeDataURL;
+  downloadLink.download = 'qrcode.png'; // Set the filename for the downloaded image
+  downloadLink.click(); // Simulate a click to trigger the download
+};
+
     useEffect(() => {
         // Function to fetch data from the API and initialize the DataTable
         const fetchDataAndInitializeTable = async () => {
@@ -89,11 +101,12 @@ const Complaint = () => {
                             buttons +=
                                 `<button class="btn btn-sm btn-secondary me-1 edit-btn" data-id="${resId}"><i class="fas fa-pen"></i></button>` +
                                 `<button class="btn btn-sm btn-danger me-1 delete-btn" data-id="${resId}"><i class="fas fa-trash"></i></button>` +
-                                `<button class="btn btn-sm btn-info me-1 generate-qr-btn" data-id="${resId}"><i class="fa-solid fa-qrcode"></i></button>` ;
+                                `<button class="btn btn-sm btn-info me-1 generate-qr-btn" data-id="${resId}"><i class="fa-solid fa-qrcode"></i></button>`;
                                 // `<button class="btn btn-sm btn-primary me-1 generate-qr-btn" data-id="${resId}">Generate QR Code</button>`;
                             return buttons;
                         },
                     },
+                    
                 ],
                 dom: 'Bfrtip', // Add the required buttons
                 buttons: [
@@ -229,6 +242,7 @@ const Complaint = () => {
                                                 <button
                                                     className='btn btn-sm btn-primary me-1 generate-qr-btn'
                                                     onClick={() => generateQRCode(complaint.resId)}
+                                                    
                                                 >
                                                     Generate QR Code
                                                 </button>
