@@ -14,7 +14,7 @@ const EditComplaint = () => {
   const [complaints, setComplaints] = useState([]);
   const [initialData, setInitialData] = useState(null);
   const [scanResult, setScanResult] = useState(null);
-  const [manualSerialNumber, setManualSerialNumber] = useState('');
+  const [resourceNumber, setresourceNumber] = useState('');
 
   useEffect(() => {
     const scanner = new Html5QrcodeScanner('reader', {
@@ -42,8 +42,8 @@ const EditComplaint = () => {
     }
   }, []);
 
-  function handleManualSerialNumberChange(event) {
-    setManualSerialNumber(event.target.value);
+  function handleresourceNumberChange(event) {
+    setresourceNumber(event.target.value);
   }
 
   const navigate = useNavigate();
@@ -150,11 +150,11 @@ const EditComplaint = () => {
                         <div className="center-input">
                           <input
                             type="text"
-                            value={manualSerialNumber}
-                            onChange={handleManualSerialNumberChange}
+                            value={resourceNumber}
+                            onChange={handleresourceNumberChange}
                           />
-                          {manualSerialNumber && (
-                            <p>Serial Number: {manualSerialNumber.slice(-16)}</p>
+                          {resourceNumber && (
+                            <p>Serial Number: {resourceNumber.slice(-16)}</p>
                           )}
                         </div>
                       </div>
@@ -168,14 +168,15 @@ const EditComplaint = () => {
                     enableReinitialize={true}
                   >
                     <Form className="formContainer">
-                      <div class="mb-3">
-                      <Field
+                    <Field
                           id="inputCreatePost"
                           type="hidden"
                           name="complaintId"
                           autoComplete="off"
                         />
 
+
+                      {/* <div class="mb-3">
                         <label className="my-2">user Id:</label>
                         <ErrorMessage
                           name="userId"
@@ -205,7 +206,24 @@ const EditComplaint = () => {
                           placeholder="Index No"
                           autoComplete="off"
                         />
-                      </div>
+                      </div> */}
+
+
+                      <Field
+                          id="inputCreatePost"
+                          className={`form-control`}
+                          name="userId"
+                          placeholder="User Id"
+                          autoComplete="off"
+                        />
+
+                      <Field
+                          id="inputCreatePost"
+                          className={`form-control`}
+                          name="userIndex"
+                          placeholder="Index No"
+                          autoComplete="off"
+                        />
 
                       <div class="mb-3">
                         <label className="my-2">Complaint:</label>
@@ -276,12 +294,16 @@ const EditComplaint = () => {
                           className="badge rounded-pill text-bg-danger my-3"
                           component="span"
                         />
-                        <Field
-                          id="status"
-                          name="status"
-                          className={`form-control`}
-                          placeholder="Status"
-                        />
+                       <Field
+                                as="select" // Use <select> element
+                                id="status"
+                                name="status"
+                                className="form-select" // Use form-select class for styling
+                            >
+                                <option value="pending">Pending</option>
+                                <option value="in-progress">In-Progress</option>
+                                <option value="resolve">Resolve</option>
+                            </Field>
                       </div>
 
                       <button type="submit" className="btn btn-primary mt-5">

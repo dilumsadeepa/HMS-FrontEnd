@@ -22,11 +22,13 @@ import "datatables.net-buttons/js/buttons.flash.js";
 import "pdfmake/build/pdfmake.js";
 import "pdfmake/build/vfs_fonts.js";
 
+
 const Complaint = () => {
     const tableRef = useRef(null);
     const [complaints, setComplaints] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [complaintObject, setComplaintObject] = useState({});
+    const [deleteObject, setDeleteObject] = useState(null);
     let navigate = useNavigate();    //useNavigate is a hook to navigate to another page
 
     const MySwal = withReactContent(Swal) // Create a new instance of SweetAlert with React content
@@ -155,7 +157,7 @@ const Complaint = () => {
     };
   
     fetchData();
-  }, []);
+  }, [deleteObject]);
 
 
   // const deleteComplaint = async(id) =>{
@@ -176,6 +178,7 @@ const Complaint = () => {
     try {
       const deleted = await axios.put(`${Apiurl}/complaint/markAsDeleted/${id}`);
       console.log(deleted.data);
+      setDeleteObject(deleted.data);
       // Update the state of the notices array after deleting the notice
       // setComplaints(complaints.filter(complaint => complaint.is_deleted !== 1));
     } catch (error) {

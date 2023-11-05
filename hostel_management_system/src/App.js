@@ -13,6 +13,7 @@ import AddAsset from "./components/Admin/AddAsset";
 import UpdateAsset from "./components/Admin/UpdateAsset";
 import CreateNewComplaint from "./components/Admin/CreateNewComplaint";
 import EditComplaint from "./components/Admin/EditComplaint";
+import ShowComplaint from "./components/Admin/ShowComplaint";
 
 
 //maintains
@@ -31,10 +32,15 @@ function App() {
           
 
           <Route path="reports" element={<Report/>} />
-          <Route path="/complaints" element={<Complaint/>} />
 
+
+          {/* complaints */}
+          <Route path="/complaints" element={<Complaint/>} />
           <Route path="/complaint/create" element={<CreateNewComplaint/>} />
           <Route path="/complaint/edit/:id" element={<EditComplaint/>} />
+          <Route path="/complaint/show/:id" element={<ShowComplaint/>} />
+
+
           <Route path="/asset" element={<Asset/>} />
           <Route path="/addasset" element={<AddAsset/>} />
           <Route path="/updateasset/:assetId" element={<UpdateAsset />} />
