@@ -140,6 +140,7 @@ export default function Report() {
                     </table>
                   </div>
                 )}
+                <hr></hr>
                 <button className="btn btn-primary" onClick={generatePDF}>
                   Generate PDF
                 </button>
