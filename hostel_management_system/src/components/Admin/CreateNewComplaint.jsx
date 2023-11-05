@@ -8,13 +8,47 @@ import * as Yup from "yup";   //use for validation purposes
 import axios from 'axios';  
 import { useNavigate } from 'react-router-dom' ;
 import { Html5QrcodeScanner } from 'html5-qrcode';
+import { useCookies } from 'react-cookie';
 
 
 
 const CreateNewComplaint = () => {
 
+    const [cookies] = useCookies(['role']);
+    console.log(cookies);
+    console.log(cookies.user.id);
+
     const [scanResult, setScanResult] = useState(null);
-    const [manualSerialNumber, setManualSerialNumber] = useState('');
+    const [resourceNumber, setresourceNumber] = useState('');
+    const [resourceData, setResourceData] = useState(null);
+
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+    const day = String(today.getDate()).padStart(2, '0');
+
+    const currentDate = `${year}-${month}-${day}`;
+
+
+   
+
+      useEffect(() => {
+        if(scanResult){
+        const fetchResourceData = async () => {
+          try {
+            const response = await axios.get(`${Apiurl}/res/find/${scanResult}`);
+            setResourceData(response.data);
+            console.log('resource data:', response.data);
+          } catch (error) {
+            console.log('Error in getting resource data:', error);
+          }
+        };
+    
+        fetchResourceData();
+      }
+      }, [scanResult]);
+
+
   
     useEffect(() => {
       const scanner = new Html5QrcodeScanner('reader', {
@@ -42,20 +76,20 @@ const CreateNewComplaint = () => {
       }
     }, []);
   
-    function handleManualSerialNumberChange(event) {
-      setManualSerialNumber(event.target.value);
+    function handleresourceNumberChange(event) {
+      setresourceNumber(event.target.value);
     }
 
 
     let navigate = useNavigate();
     const initialValues = {
-        userId: '',
-        userIndex: '',
+        userId: cookies.user.id,
+        userIndex: cookies.user.index_no,
         complaint: '',
-        resId: '',
-        complaintDate: '',
+        resId: scanResult || '',
+        complaintDate: currentDate,
         evidenceImage: '',
-        status: ''
+        status: 'pending'
     };
 
     const onSubmit = (data) => {
@@ -93,47 +127,91 @@ const CreateNewComplaint = () => {
 
                 <div className="d-flex justify-content-center">
                 <div className="col-sm-10 debox px-5">
-                    
-                    <div className="col-sm-8 px-5">
+                    <div className="row">
+                    <div className="col-sm-7 px-5">
                     {scanResult ? (
-                        <div>
-                        <p>Success: <a href={scanResult}>{scanResult}</a></p>
-                        <p>Serial Number: {scanResult.slice(-16)}</p>
+                        // <div>
+                        // <p>Scan Success: {scanResult}</p>
+                        // <p>Resource ID: {scanResult.slice(-16)}</p>
+                        // </div>
+
+                        <div className="card">
+                        <div class="card-header h6 bg-dark bg-gradient">
+                          Resource Details
                         </div>
+                        {resourceData ? (
+                          <ul className="list-group list-group-flush">
+                          <li className="list-group-item">Resource Id: {resourceData.resId}</li>
+                          <li className="list-group-item">Resource Name: {resourceData.resName}</li>
+                          <li className="list-group-item">Resource Location: {resourceData.roomNo}</li>
+                          <li className="list-group-item">Installion Date: {resourceData.installationDate}</li>
+                          <li className="list-group-item">Last MaintainDate: {resourceData.lastMaintenanceDate}</li>
+                          <li className="list-group-item">Resource Status: {resourceData.status}</li>
+                        </ul>
+                        ):(
+                          <ul className="list-group list-group-flush">
+                          <li className="list-group-item text-danger">Nothing Found Yet!. Scan QR Again</li>
+                          </ul>
+                        )}
+                  
+                      </div>
+
+
                     ) : (
                         <div>
                         <div id="reader"></div>
-                        <p className="center-text">Or enter the serial number manually:</p>
+                        {/* <p className="center-text">Or enter the Resource ID manually:</p>
                         <div className="center-input">
                             <input
                             type="text"
-                            value={manualSerialNumber}
-                            onChange={handleManualSerialNumberChange}
+                            value={resourceNumber}
+                            onChange={handleresourceNumberChange}
                             />
-                            {manualSerialNumber && (
-                            <p>Serial Number: {manualSerialNumber.slice(-16)}</p>
+                            {resourceNumber && (
+                            <p>Resource Number: {resourceNumber.slice(-16)}</p>
                             )}
-                        </div>
+                        </div> */}
                         </div>
                     )}
 
                     </div>
+
+                    <div className="col-sm-4">
+                    <div className="card">
+                        <div class="card-header py-2 h6 bg-dark bg-gradient">
+                          Resource Details
+                        </div>
+                        {resourceData ? (
+                          <ul className="list-group list-group-flush">
+                            <li className="list-group-item text-success">Scan Successfully!</li>
+                          </ul>
+                        ):(
+                          <ul className="list-group list-group-flush">
+                              <li className="list-group-item text-danger">Nothing Found Yet!. Scan QR Again</li>
+                          </ul>
+                        )}
+                  
+                      </div>
+                    </div>
+                    </div>
+                   
                
 
-                <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-                    <Form className='formContainer'> 
-                    <div class="mb-3">
-                    <label className="my-2">user Id:</label>
-                        <ErrorMessage name='userId' className="badge rounded-pill text-bg-danger my-3" component='span'  />
-                        <Field id="inputCreatePost" className={`form-control`} name='userId' placeholder='User Id' autoComplete="off" />
-                    </div>
+                <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema} enableReinitialize={true}>
+                    <Form className='formContainer'> \
+
+                        {/* <div class="mb-3">
+                        <label className="my-2">user Id:</label>
+                            <ErrorMessage name='userId' className="badge rounded-pill text-bg-danger my-3" component='span'  />
+                            <Field type="hidden" id="inputCreatePost" className={`form-control`} name='userId' placeholder='User Id' autoComplete="off" />
+                        </div>
 
 
                         <div class="mb-3">
                         <label className="my-2">user Index:</label>
                         <ErrorMessage name='userIndex' className="badge rounded-pill text-bg-danger my-3" component='span'  />
-                        <Field id="inputCreatePost" className={`form-control`} name='userIndex' placeholder='Index No' autoComplete="off" />
-                        </div>
+                        <Field type="hidden" id="inputCreatePost" className={`form-control`} name='userIndex' placeholder='Index No' autoComplete="off" />
+                        </div> */}
                         
 
                         <div class="mb-3">
@@ -141,8 +219,9 @@ const CreateNewComplaint = () => {
                         <ErrorMessage name='complaint' className="badge rounded-pill text-bg-danger my-3" component='span'  />
                         <Field as="textarea" id="complaint" name="complaint"  className={`form-control`}  placeholder="Your complaint"/>
                         </div>
-                    
 
+                    <Field type="hidden" id="inputCreatePost" className={`form-control`} name='userId' placeholder='User Id' autoComplete="off" />
+                    <Field type="hidden" id="inputCreatePost" className={`form-control`} name='userIndex' placeholder='Index No' autoComplete="off" />
                     <div class="mb-3">
                         <label className="my-2">Resource Id:</label>
                         <ErrorMessage name='resId' className="badge rounded-pill text-bg-danger my-3" component='span'  />
@@ -164,7 +243,7 @@ const CreateNewComplaint = () => {
                     <div class="mb-3">
                         <label className="my-2">Status :</label>
                         <ErrorMessage name='status' className="badge rounded-pill text-bg-danger my-3" component='span'  />
-                        <Field id="status" name="status" className={`form-control`}  placeholder="Status"/>
+                        <Field type="hidden" id="status" name="status" className={`form-control`}  placeholder="Status"/>
                     </div>
 
 
