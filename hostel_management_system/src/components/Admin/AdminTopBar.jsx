@@ -4,8 +4,13 @@ import Apiurl from '../ApiURL';
 import axios from 'axios'; 
 import { useNavigate } from 'react-router-dom' ;
 
+import { useCookies } from 'react-cookie';
+import { Link } from 'react-router-dom';
+import Logout from '../User/Logout';
+
 const AdminTopBar = () => {
-  const [cookies] = useCookies(['role']);
+
+  const [cookies, setCookie] = useCookies(['user']);
   const [complaintNotification, setComplaintNotification] = useState([]);
 
   console.log(cookies);
@@ -29,6 +34,13 @@ const AdminTopBar = () => {
     // Call the fetchDataAndInitializeTable function
     fetchComplaintNotificationData();
   }, []);
+
+
+
+
+  const username = cookies.user ? cookies.user.name : null;
+  const userID = cookies.user ? cookies.user.id : null;
+
 
 
     return (
@@ -122,13 +134,11 @@ const AdminTopBar = () => {
             <li className="nav-item dropdown no-arrow">
               <div className="nav-item dropdown no-arrow">
                 <a className="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
-                  <span className="d-none d-lg-inline me-2 text-gray-600 small">Admin</span>
+                  <span className="d-none d-lg-inline me-2 text-gray-600 small">{username}</span>
                   <img className="border rounded-circle img-profile" src="assets/img/avatars/user.png" alt="User Avatar" />
                 </a>
                 <div className="dropdown-menu shadow dropdown-menu-end animated--grow-in">
-                  <a className="dropdown-item" href="#">
-                    <i className="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile
-                  </a>
+                  <Link to={`/profile/${userID}`} className='dropdown-item'><i class="bi bi-person-square"></i> Profile</Link>
                   <a className="dropdown-item" href="#">
                     <i className="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings
                   </a>
@@ -136,9 +146,7 @@ const AdminTopBar = () => {
                     <i className="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Activity log
                   </a>
                   <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="#">
-                    <i className="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout
-                  </a>
+                  <Logout />
                 </div>
               </div>
             </li>

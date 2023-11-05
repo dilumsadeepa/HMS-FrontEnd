@@ -188,16 +188,16 @@ const DataTable = ({ columns, data, onEditRow, onViewRow, onDeleteRow }) => {
             <div className="d-flex justify-content-between mb-3">
                 <div>
                     <button
-                        className="btn btn-primary mr-3"
+                        className="btn btn-primary mr-3 ml-2"
                         onClick={downloadAsPDF}
                     >
-                        Download as PDF
+                        PDF
                     </button>
-                    <button className="btn btn-primary mr-3" onClick={downloadAsCSV}>
-                        Download as CSV
+                    <button className="btn btn-primary mr-3 ml-2" onClick={downloadAsCSV}>
+                        CSV
                     </button>
-                    <button className="btn btn-primary mr-3" onClick={downloadAsExcel}>
-                        Download as Excel
+                    <button className="btn btn-primary mr-3 ml-2" onClick={downloadAsExcel}>
+                        Excel
                     </button>
                 </div>
                 <div className="form-inline ml-3">
