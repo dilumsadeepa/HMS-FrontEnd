@@ -9,6 +9,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
+
 import $ from 'jquery';
 import "datatables.net-dt/css/jquery.dataTables.css";
 import "datatables.net-dt/js/dataTables.dataTables.js";
@@ -22,11 +23,13 @@ import "datatables.net-buttons/js/buttons.flash.js";
 import "pdfmake/build/pdfmake.js";
 import "pdfmake/build/vfs_fonts.js";
 
+
 const Complaint = () => {
     const tableRef = useRef(null);
     const [complaints, setComplaints] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [complaintObject, setComplaintObject] = useState({});
+    const [deleteObject, setDeleteObject] = useState(null);
     let navigate = useNavigate();    //useNavigate is a hook to navigate to another page
 
     const MySwal = withReactContent(Swal) // Create a new instance of SweetAlert with React content
@@ -54,26 +57,61 @@ const Complaint = () => {
   
   useEffect(() => {
     // Fetch your data here, for example:
-    const fetchData = async () => {
-      const response = await fetch(`${Apiurl}/complaint/all`);
-      const data = await response.json();
-  
-      // Destroy existing DataTable (if any)
-      if ($.fn.DataTable.isDataTable(tableRef.current)) {
-        $(tableRef.current).DataTable().destroy();
-      }
+ 
+      const fetchData = async () => {
+        const response = await fetch(`${Apiurl}/complaint/all`);
+        const data = await response.json();
+    
+        if ($.fn.DataTable.isDataTable(tableRef.current)) {
+          $(tableRef.current).DataTable().destroy();
+        }
+    
   
       // Initialize DataTable
       const table = $(tableRef.current).DataTable({
         data: data,
         columns: [
           { title: 'Complaint Id', data: 'complaintId' },
-          { title: 'userId', data: 'userId' },
+          // { title: 'userId', data: 'userId' },
           { title: 'userIndex', data: 'userIndex' },
-          { title: 'complaint', data: 'complaint' },
+          {
+            title: 'complaint',
+            data: 'complaint',
+            render: (data, type, row) => {
+              if (type === 'display') {
+                if (data && data.length) {
+                  if (data.length > 20) {
+                    return `${data.slice(0, 20)}...`;
+                  } else {
+                    return data;
+                  }
+                } else {
+                  return ''; // Handle null values by returning an empty string
+                }
+              }
+              return data; // For sorting and other purposes, return the full data
+            },
+          },
           { title: 'resId', data: 'resId' },
           { title: 'complaintDate', data: 'complaintDate' },
-          { title: 'evidenceImage', data: 'evidenceImage' },
+          {
+            title: 'evidenceImage',
+            data: 'evidenceImage',
+            render: (data, type, row) => {
+              if (type === 'display') {
+                if (data && data.length) {
+                  if (data.length > 20) {
+                    return `${data.slice(0, 20)}...`;
+                  } else {
+                    return data;
+                  }
+                } else {
+                  return ''; // Handle null values by returning an empty string
+                }
+              }
+              return data; // For sorting and other purposes, return the full data
+            },
+          },
           { title: 'status', data: 'status' },
           {
             title: 'Action',
@@ -120,16 +158,30 @@ const Complaint = () => {
     };
   
     fetchData();
-  }, []);
+  }, [deleteObject]);
+
+
+  // const deleteComplaint = async(id) =>{
+  //   console.log(`${Apiurl}/complaint/delete/${id}`);
+  //   try {
+  //     const deleted = await axios.delete(`${Apiurl}/complaint/delete/${id}`);
+  //     console.log(deleted.data);
+  //     // Update the state of the notices array after deleting the notice
+  //     setComplaints(complaints.filter(complaint => complaint.complaintId !== id));
+  //   } catch (error) {
+  //     console.log("error on deleting" + error);
+  //   }
+  // }
 
 
   const deleteComplaint = async(id) =>{
-    console.log(`${Apiurl}/complaint/delete/${id}`);
+    console.log(`${Apiurl}/complaint/markAsDeleted/${id}`);
     try {
-      const deleted = await axios.delete(`${Apiurl}/complaint/delete/${id}`);
+      const deleted = await axios.put(`${Apiurl}/complaint/markAsDeleted/${id}`);
       console.log(deleted.data);
+      setDeleteObject(deleted.data);
       // Update the state of the notices array after deleting the notice
-      setComplaints(complaints.filter(complaint => complaint.complaintId !== id));
+      // setComplaints(complaints.filter(complaint => complaint.is_deleted !== 1));
     } catch (error) {
       console.log("error on deleting" + error);
     }
@@ -187,62 +239,72 @@ const handleShowModal = (complaintId) => {
           <div id="content">
             <AdminTopBar />
             <div className="container-fluid">
-              <div className="d-sm-flex justify-content-between align-items-center mb-4">
+              <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
                 <h3 className="text-dark mb-0">Dashboard</h3>
                 <a
-                  className="btn btn-primary btn-sm d-none d-sm-inline-block"
+                  className="btn btn-primary btn"
                   role="button"
                   href="/complaint/create"
                 >
-                  <i className="fas fa-download fa-sm text-white-50"></i>
+                  <i class="fa-solid fa-file-circle-exclamation text-white"></i>
                   &nbsp;New Complaint
                 </a>
               </div>
 
 
-              <h2>Your Resources Content Goes Here</h2>
+          
 
-              <table ref={tableRef} className="display" style={{ width: '100%' }}>
-                <thead>
-                    <tr>
-                    <th>Complaint Id</th>
-                    <th>user Id</th>
-                    <th>Index No</th>
-                    <th>Complaint</th>
-                    <th>res_ID</th>
-                    <th>Complaint Date</th>
-                    <th>Evidence Image</th>
-                    <th>Status</th>
-                    <th>Action</th> 
-                    </tr>
-                </thead>
-                <tbody>
-                    {complaints.map((complaint) => (
-                        <tr key={complaint.complaintId}>
-                        <td>{complaint.userId}</td>
-                        <td>{complaint.userIndex}</td>
-                        <td>{complaint.complaint}</td>
-                        <td>{complaint.resId}</td>
-                        <td>{complaint.complaintDate}</td>
-                        <td>{complaint.evidenceImage}</td>
-                        <td>{complaint.status}</td>
-                        <td>
-                              <button className='btn btn-sm btn-secondary me-1 view-btn'>
-                                <i className="fa-solid fa-eye"></i>
-                              </button>
-                              <button className='btn btn-sm btn-secondary me-1 edit-btn'>
-                                <i className="fa-solid fa-pen-to-square"></i>
-                              </button>
-                              <button className='btn btn-sm btn-danger me-1 delete-btn'>
-                                <i className="fa-solid fa-trash"></i>
-                              </button>
-                            </td>
-                   </tr>
-                     ))}
-                </tbody>
+
+              <div className="card shadow">
+                    <div className="card-header py-3">
+                    <p className="text-primary m-0 fw-bold">Complaints</p>
+                    </div>
+                    <div className="card-body bg-light">
+
+                    <table ref={tableRef} className="table table-striped">
+                      <thead>
+                          <tr>
+                          <th>Complaint Id</th>
+                          {/* <th>user Id</th> */}
+                          <th>Index No</th>
+                          <th>Complaint</th>
+                          <th>res_ID</th>
+                          <th>Complaint Date</th>
+                          <th>Evidence Image</th>
+                          <th>Status</th>
+                          <th>Action</th> 
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {complaints.map((complaint) => (
+                              <tr key={complaint.complaintId}>
+                              {/* <td>{complaint.userId}</td> */}
+                              <td>{complaint.userIndex}</td>
+                              <td>{complaint.complaint}</td>
+                              <td>{complaint.resId}</td>
+                              <td>{complaint.complaintDate}</td>
+                              <td>{complaint.evidenceImage ? (complaint.evidenceImage.length > 20 ? `${complaint.evidenceImage.slice(0, 17)}...` : complaint.evidenceImage) : null}</td>
+                              <td>{complaint.status}</td>
+                              <td>
+                                    <button className='btn btn-sm btn-secondary me-1 view-btn'>
+                                      <i className="fa-solid fa-eye"></i>
+                                    </button>
+                                    <button className='btn btn-sm btn-secondary me-1 edit-btn'>
+                                      <i className="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <button className='btn btn-sm btn-danger me-1 delete-btn'>
+                                      <i className="fa-solid fa-trash"></i>
+                                    </button>
+                                  </td>
+                        </tr>
+                          ))}
+                      </tbody>
                 </table>
 
-                <DashboardTables />
+                </div>
+                </div>
+{/* 
+                <DashboardTables /> */}
 
 
 
@@ -259,7 +321,7 @@ const handleShowModal = (complaintId) => {
                                           <div className="modal-content">
                                               <div className="modal-header bg-light bg-gradient">
                                               <h5 className="modal-title" id="noticeModalLabel">
-                                              <span className="fw-bold">Complaint Id :</span> {complaintObject.complaintId}
+                                              <span className="fw-bold">Complaint Id :</span> {complaintObject.complaintId} <span className="fw-bold"> |</span> <span className="fw-bold">Resource Id: </span> {complaintObject.resId}
                                               </h5>
                                               <button
                                                   type="button"
@@ -270,8 +332,56 @@ const handleShowModal = (complaintId) => {
                                               ></button>
                                               </div>
                                               <div className="modal-body">
-                                              <h2 className="text-center mb-5" style={{ fontFamily: 'Merriweather', }}>Resource ID : {complaintObject.resId}</h2>
-                                              <p className="my-5">Complaint: {complaintObject.complaint}</p>
+                                              <h2 className="text-center mb-5" style={{ fontFamily: 'Merriweather', fontWeight:700, }}>Complaint</h2>
+                                              <p className="mt-5" style={{fontWeight:700, }}>Complaint: {complaintObject.complaint}</p>
+                                              <p className="my-1" style={{fontWeight:700, }}>Complaint Date: {complaintObject.complaintDate}</p>
+                                             
+
+
+                                              {complaintObject.resource && (
+                                                  <div class="alert alert-info" role="alert">
+                                                      <p>Resource Id: {complaintObject.resId}</p>
+                                                      <p>Resource Name: {complaintObject.resource.resName}</p>
+                                                      <p>Installation Date: {complaintObject.resource.installationDate}</p>
+                                                      <p>Last Maintain Date: {complaintObject.resource.lastMaintenanceDate}</p>
+                                                      <p>Resource Status: {complaintObject.resource.status}</p>
+                                                  </div>
+                                              )}
+
+                                              {complaintObject.user && (
+                                                  <div class="alert alert-primary" role="alert">
+                                                      <p>User Index: {complaintObject.user.indexNo}</p>
+                                                      <p>User Name: {complaintObject.user.name}</p>
+                                                      <p>User Email: {complaintObject.user.email}</p>
+                                                      <p>User mobile: {complaintObject.user.mobileNo}</p>
+                                                  </div>
+                                              )}
+
+{complaintObject.evidenceImage ? (
+                                                <div
+                                                  className="mb-3"
+                                                  style={{
+                                                    width: '100%', 
+                                                    height: '320px',
+                                                    backgroundImage: `url(${complaintObject.evidenceImage})`, // Correct the URL interpolation
+                                                    backgroundPosition: 'center',
+                                                    backgroundRepeat: 'no-repeat',
+                                                    backgroundSize: 'cover'
+                                                  }}
+                                                >                                                <a
+                                                href={complaintObject.evidenceImage}
+                                                download={complaintObject.evidenceImage}
+                                              >
+                                                <i class="fa-solid fa-download"></i> Download Image
+                                              </a></div>
+
+
+                                              ) : (
+                                                <p className="my-1" style={{ fontWeight: 700 }}>
+                                                  Complaint Image: Unavailable
+                                                </p>
+                                              )}
+
 
                                               </div>
                                               <div className="modal-footer">

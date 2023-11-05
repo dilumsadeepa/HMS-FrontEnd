@@ -1,6 +1,47 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
+import { useCookies } from 'react-cookie';
+import Apiurl from '../ApiURL';
+import axios from 'axios'; 
+import { useNavigate } from 'react-router-dom' ;
+
+import { Link } from 'react-router-dom';
+import Logout from '../User/Logout';
 
 const AdminTopBar = () => {
+
+  const [cookies, setCookie] = useCookies(['user']);
+  const [complaintNotification, setComplaintNotification] = useState([]);
+
+  console.log(cookies);
+  console.log(cookies.user.id);
+
+  useEffect(() => {
+    // Function to fetch data from the API and initialize the DataTable
+    const fetchComplaintNotificationData= async () => {
+      try {
+        // Fetch data from the API
+        const response = await axios.get(`${Apiurl}/api/complaintNotifications/all`);
+        const data = response.data;
+        setComplaintNotification(data);
+        console.log(data);
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    // Call the fetchDataAndInitializeTable function
+    fetchComplaintNotificationData();
+  }, []);
+
+
+
+
+  const username = cookies.user ? cookies.user.name : null;
+  const userID = cookies.user ? cookies.user.id : null;
+
+
+
     return (
         <nav className="navbar navbar-expand bg-white shadow mb-4 topbar static-top navbar-light">
         <div className="container-fluid">
@@ -41,17 +82,24 @@ const AdminTopBar = () => {
                 </a>
                 <div className="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
                   <h6 className="dropdown-header">alerts center</h6>
-                  <a className="dropdown-item d-flex align-items-center" href="#">
-                    <div className="me-3">
-                      <div className="bg-primary icon-circle">
-                        <i className="fas fa-file-alt text-white"></i>
-                      </div>
-                    </div>
-                    <div>
-                      <span className="small text-gray-500">December 12, 2019</span>
-                      <p>A new monthly report is ready to download!</p>
-                    </div>
-                  </a>
+
+                  {complaintNotification.map((complaintNotify) => (
+                      complaintNotify.toWhom === cookies.user.role ? (
+                        <a key={complaintNotify.complaintId} className="dropdown-item d-flex align-items-center" href={`/complaint/show/${complaintNotify.complaintId}`}>
+                          <div className="me-3">
+                            <div className="bg-primary icon-circle">
+                              <i className="fas fa-file-alt text-white"></i>
+                            </div>
+                          </div>
+                          <div>
+                            <span><span className="badge text-bg-info">Complaint</span></span>
+                            <p>{complaintNotify.complaint} <span className="badge text-bg-light ms-3">{complaintNotify.complaint_Date}</span></p>
+                          </div>
+                        </a>
+                      ) : null // Render null if the condition is not met
+                    ))}
+
+
                   <a className="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                 </div>
               </div>
@@ -85,13 +133,11 @@ const AdminTopBar = () => {
             <li className="nav-item dropdown no-arrow">
               <div className="nav-item dropdown no-arrow">
                 <a className="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
-                  <span className="d-none d-lg-inline me-2 text-gray-600 small">Admin</span>
+                  <span className="d-none d-lg-inline me-2 text-gray-600 small">{username}</span>
                   <img className="border rounded-circle img-profile" src="assets/img/avatars/user.png" alt="User Avatar" />
                 </a>
                 <div className="dropdown-menu shadow dropdown-menu-end animated--grow-in">
-                  <a className="dropdown-item" href="#">
-                    <i className="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile
-                  </a>
+                  <Link to={`/profile/${userID}`} className='dropdown-item'><i class="bi bi-person-square"></i> Profile</Link>
                   <a className="dropdown-item" href="#">
                     <i className="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings
                   </a>
@@ -99,9 +145,7 @@ const AdminTopBar = () => {
                     <i className="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Activity log
                   </a>
                   <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="#">
-                    <i className="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout
-                  </a>
+                  <Logout />
                 </div>
               </div>
             </li>
