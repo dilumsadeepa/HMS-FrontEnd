@@ -130,18 +130,21 @@ const Complaint = () => {
         fetchData();
     }, []);
 
-    const deleteComplaint = async(id) =>{
-      console.log(`${Apiurl}/complaint/markAsDeleted/${id}`);
+    const deleteComplaint = async (id) => {
       try {
         const deleted = await axios.delete(`http://localhost:8080/res/delete/${id}`);
-        //const deleted = await axios.delete(`${Apiurl}/res/delete/${id}`);
         console.log(deleted.data);
-        // Update the state of the notices array after deleting the notice
-        setComplaints(complaints.filter(complaint => complaint.is_deleted !== 1));
+    
+        // Update the state of the complaints array after deleting the complaint
+        setComplaints(complaints.filter((complaint) => complaint.complaintId !== id));
+    
+        // Refresh the page after deleting
+        window.location.reload();
       } catch (error) {
-        console.log("error on deleting" + error);
+        console.log("Error on deleting: " + error);
       }
     }
+    
   
 
     const handleDeleteComplaint = (noticeId, confirmationMessage = 'Are you sure?', successMessage = 'The Complaint has been deleted.') => {

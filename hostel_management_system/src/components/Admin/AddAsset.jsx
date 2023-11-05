@@ -135,10 +135,12 @@ const AddAsset = () => {
                           onChange={handleInputChange}
                         >
                           <option value="chair">Chair</option>
-                          <option value="desk">Desk</option>
+                          <option value="desk">Study Desk</option>
                           <option value="lamp">Lamp</option>
                           <option value="fan">Fan</option>
-                          <option value="cubard">Cubard</option>
+                          <option value="ban">Bed</option>
+                          <option value="cloth rack">Cloth Rack</option>
+                          <option value="cupboard">Cupboard</option>
                         </select>
                       </div>
                     </div>

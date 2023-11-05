@@ -63,6 +63,12 @@ const AdminNavbar = () => {
                 <span>Complaints</span>
               </a>
             </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/asset">
+                <i className="fas fa-home"></i>
+                <span>Asset</span>
+              </a>
+            </li>
           </>
         );
       case 3:
