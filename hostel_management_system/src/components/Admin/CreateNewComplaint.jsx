@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom' ;
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import { useCookies } from 'react-cookie';
-
+import CloudinaryUpload from "../FileUpload/CloudinaryUpload";
 
 
 const CreateNewComplaint = () => {
@@ -21,6 +21,8 @@ const CreateNewComplaint = () => {
     const [scanResult, setScanResult] = useState(null);
     const [resourceNumber, setresourceNumber] = useState('');
     const [resourceData, setResourceData] = useState(null);
+    const [uploadedUrl, setUploadedUrl] = useState('');
+    const [evidenceImage, setEvidenceImage] = useState('');
 
     const today = new Date();
     const year = today.getFullYear();
@@ -29,6 +31,11 @@ const CreateNewComplaint = () => {
 
     const currentDate = `${year}-${month}-${day}`;
 
+    const handleUploadedUrl = (url) => {
+      setUploadedUrl(url);
+      setEvidenceImage(url);
+      
+  };
 
    
 
@@ -88,7 +95,7 @@ const CreateNewComplaint = () => {
         complaint: '',
         resId: scanResult || '',
         complaintDate: currentDate,
-        evidenceImage: '',
+        evidenceImage: uploadedUrl,
         status: 'pending'
     };
 
@@ -236,6 +243,7 @@ const CreateNewComplaint = () => {
 
                     <div class="mb-3">  
                         <label className="my-2">Evidence Image</label>
+                        <CloudinaryUpload handleUploadedUrl={handleUploadedUrl} />
                         <ErrorMessage name='evidenceImage' className="badge rounded-pill text-bg-danger my-3" component='span'  />
                         <Field id="evidenceImage" name="evidenceImage" className={`form-control`}  placeholder="Evidence Image"/>
                     </div>
