@@ -44,7 +44,6 @@ const Complaint = () => {
       }, 2000); // Increase the delay to 2000 milliseconds (2 seconds) or adjust as needed.
     }
   };
-  
 
   const generateQRCode = (resourceId) => {
     const data = `${resourceId}`;
@@ -190,9 +189,7 @@ const Complaint = () => {
                   &nbsp;Add New Asset
                 </a>
               </div>
-
               <h2>Your Resources Content Goes Here</h2>
-
               <table ref={tableRef} className="display" style={{ width: '100%' }}>
                 <thead>
                   <tr>
@@ -240,7 +237,6 @@ const Complaint = () => {
                   ))}
                 </tbody>
               </table>
-
               <AdminFooter />
             </div>
             <a
@@ -252,7 +248,6 @@ const Complaint = () => {
           </div>
         </div>
       </div>
-
       <div
         className={`modal fade ${showModal ? "show" : ""}`}
         id="noticeModal"
