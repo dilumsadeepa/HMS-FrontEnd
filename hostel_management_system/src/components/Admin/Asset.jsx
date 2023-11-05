@@ -86,7 +86,7 @@ const Complaint = () => {
                         data: 'resId', // Change to 'resId' to pass the correct ID
                         render: (resId) => { // Change 'complaintId' to 'resId'
                             let buttons = '';
-                            buttons += `<button class="btn btn-sm btn-secondary me-1 view-btn" data-id="${resId}"><i class="fas fa-eye"></i></button>` +
+                            buttons +=
                                 `<button class="btn btn-sm btn-secondary me-1 edit-btn" data-id="${resId}"><i class="fas fa-pen"></i></button>` +
                                 `<button class="btn btn-sm btn-danger me-1 delete-btn" data-id="${resId}"><i class="fas fa-trash"></i></button>` +
                                 `<button class="btn btn-sm btn-info me-1 generate-qr-btn" data-id="${resId}"><i class="fa-solid fa-qrcode"></i></button>` ;
@@ -116,10 +116,10 @@ const Complaint = () => {
                 navigate(`/updateasset/${id}`);
             });
 
-            // $(tableRef.current).on('click', '.delete-btn', function () {
-            //     const id = $(this).data('id');
-            //     handleDeleteComplaint(id);
-            // });
+            $(tableRef.current).on('click', '.delete-btn', function () {
+                const id = $(this).data('id');
+                handleDeleteComplaint(id);
+            });
 
             $(tableRef.current).on('click', '.generate-qr-btn', function () {
                 const id = $(this).data('id');
@@ -130,7 +130,42 @@ const Complaint = () => {
         fetchData();
     }, []);
 
-    // ... Other functions ...
+    const deleteComplaint = async(id) =>{
+      console.log(`${Apiurl}/complaint/markAsDeleted/${id}`);
+      try {
+        const deleted = await axios.delete(`http://localhost:8080/res/delete/${id}`);
+        //const deleted = await axios.delete(`${Apiurl}/res/delete/${id}`);
+        console.log(deleted.data);
+        // Update the state of the notices array after deleting the notice
+        setComplaints(complaints.filter(complaint => complaint.is_deleted !== 1));
+      } catch (error) {
+        console.log("error on deleting" + error);
+      }
+    }
+  
+
+    const handleDeleteComplaint = (noticeId, confirmationMessage = 'Are you sure?', successMessage = 'The Complaint has been deleted.') => {
+      MySwal.fire({
+        title: confirmationMessage,
+        text: 'You are about to delete this Complaint.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          deleteComplaint(noticeId)
+          MySwal.fire(
+            'Deleted!',
+            successMessage,
+            'success'
+          )
+        }
+      })
+    }
+    
+
 
     return (
         <div id="page-top">
@@ -175,17 +210,15 @@ const Complaint = () => {
                                             <td>{complaint.resId}</td>
                                             <td>{complaint.status}</td>
                                             <td>
-                                                <button className='btn btn-sm btn-secondary me-1 view-btn'>
+                                                {/* <button className='btn btn-sm btn-secondary me-1 view-btn'>
                                                     <i className="fa-solid fa-eye"></i>
-                                                </button>
+                                                </button> */}
+
                                                 <button
-  className='btn btn-sm btn-secondary me-1 edit-btn'
-  onClick={() => navigate(`/complaint/edit/${complaint.complaintId}`)}
-
->
-  <i className="fa-solid fa-pen-to-square"></i>
-</button>
-
+                                                  className='btn btn-sm btn-secondary me-1 edit-btn'
+                                                  onClick={() => navigate(`/complaint/edit/${complaint.complaintId}`)} >
+                                                  <i className="fa-solid fa-pen-to-square"></i>
+                                                </button>
 
                                                 <button className='btn btn-sm btn-danger me-1 delete-btn'>
                                                     <i className="fa-solid fa-trash"></i>
