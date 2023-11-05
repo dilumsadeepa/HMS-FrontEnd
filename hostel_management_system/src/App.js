@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AdminHome from "./components/Admin/AdminHome";
 import AdminEmptyContent from "./components/Admin/AdminEmptyContent";
 import PageNotFound from "./components/Common/PageNotFound";
-import Report from "./components/Common/Report";
 import Login from "./components/User/Login";
 import Register from "./components/User/Register";
 import Complaint from "./components/Admin/Complaint";
@@ -13,6 +12,10 @@ import AddAsset from "./components/Admin/AddAsset";
 import UpdateAsset from "./components/Admin/UpdateAsset";
 import CreateNewComplaint from "./components/Admin/CreateNewComplaint";
 import EditComplaint from "./components/Admin/EditComplaint";
+
+
+//reports
+import Report from "./components/Reports/Report";
 
 
 //maintains
