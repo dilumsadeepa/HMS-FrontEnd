@@ -4,6 +4,9 @@ import "./reportstyle.css";
 import AdminNavbar from "../Admin/AdminNavbar";
 import AdminTopBar from "../Admin/AdminTopBar";
 import axios from "axios";
+
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 // import AdminFooter from "../Admin/AdminFooter";
 
 export default function Report() {
@@ -27,14 +30,15 @@ export default function Report() {
     // Make an API request
 
     try {
-      const response = await axios.post(`http://localhost:8080/report-mp/generateReportmp`,{
-        "startComplaintDate": startDate,
-        "endComplaintDate": endDate
-      })
-      console.log(response.data);
-    } catch (error) {
-      
-    }
+      const response = await axios.post(
+        `http://localhost:8080/report-mp/generateReportmp`,
+        {
+          startComplaintDate: startDate,
+          endComplaintDate: endDate,
+        }
+      );
+      setReportData(response.data);
+    } catch (error) {}
 
     // const apiUrl = `http://localhost:8080/report-mp/generateReportmp?startComplaintDate=${formattedStartDate}&endComplaintDate=${formattedEndDate}`;
 
@@ -46,6 +50,24 @@ export default function Report() {
     //   .catch((error) => {
     //     console.error("Error fetching data:", error);
     //   });
+  };
+
+  //generate PDF
+
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    doc.text("Maintenance Report", 10, 10);
+    doc.autoTable({
+      startY: 20,
+      head: [["User Index", "Complaint", "Complaint Date", "Status"]],
+      body: reportData.map((report) => [
+        report.userIndex,
+        report.complaint,
+        report.complaintDate,
+        report.status,
+      ]),
+    });
+    doc.save("maintenance_report.pdf");
   };
 
   return (
@@ -60,14 +82,16 @@ export default function Report() {
 
             <div className="card">
               <div className="card-body">
-                <h5 className="card-title">Maintenance Reports</h5>
+                <h5 className="card-title">
+                  <b>Complaints Reports</b>
+                </h5>
                 <p className="card-text">
                   Broken assets you might find in a hostel
                 </p>
                 <div className="form-group">
                   <label>Start Date</label>
                   <input
-                    type="String"
+                    type="date"
                     className="form-control"
                     value={startDate}
                     onChange={handleStartDateChange}
@@ -76,7 +100,7 @@ export default function Report() {
                 <div className="form-group">
                   <label>End Date</label>
                   <input
-                    type="String"
+                    type="date"
                     className="form-control"
                     value={endDate}
                     onChange={handleEndDateChange}
@@ -93,8 +117,8 @@ export default function Report() {
                     <table className="table">
                       <thead>
                         <tr>
-                          <th>Complaint ID</th>
-                          <th>User ID</th>
+                          {/* <th>Complaint ID</th>
+                          <th>User ID</th> */}
                           <th>User Index</th>
                           <th>Complaint</th>
                           <th>Complaint Date</th>
@@ -104,11 +128,11 @@ export default function Report() {
                       <tbody>
                         {reportData.map((report) => (
                           <tr key={report.complaint_id}>
-                            <td>{report.complaint_id}</td>
-                            <td>{report.user_id}</td>
-                            <td>{report.user_index}</td>
+                            {/* <td>{report.complaint_id}</td>
+                            <td>{report.user_id}</td> */}
+                            <td>{report.userIndex}</td>
                             <td>{report.complaint}</td>
-                            <td>{report.complaint_date}</td>
+                            <td>{report.complaintDate}</td>
                             <td>{report.status}</td>
                           </tr>
                         ))}
@@ -116,6 +140,9 @@ export default function Report() {
                     </table>
                   </div>
                 )}
+                <button className="btn btn-primary" onClick={generatePDF}>
+                  Generate PDF
+                </button>
               </div>
             </div>
 
