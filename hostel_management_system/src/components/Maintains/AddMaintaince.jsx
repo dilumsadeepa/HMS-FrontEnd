@@ -28,13 +28,13 @@ const AddMaintaince = () => {
 
     const AddMaint = async () => {
         if (
-            !complaintId ||
-            !handler ||
-            !status ||
-            !inspectionNote ||
-            !solution ||
-            !evidenceImage ||
-            !date
+            !complaintId == null ||
+            !handler == null ||
+            !status == null ||
+            !inspectionNote == null ||
+            !solution == null ||
+            !evidenceImage == null ||
+            !date == null
         ) {
             Swal.fire({
                 title: "Error",
@@ -178,7 +178,7 @@ const AddMaintaince = () => {
                                                 <div className="mb-3">
                                                     <label htmlFor="date" className="form-label">Date:</label>
                                                     <input
-                                                        type="text"
+                                                        type="date"
                                                         className="form-control"
                                                         id="date"
                                                         name="date"
