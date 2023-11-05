@@ -228,8 +228,12 @@ const DataTable = ({ columns, data, onEditRow, onViewRow, onDeleteRow }) => {
                 <table className="table table-bordered table-hover">
                     <thead className="thead-dark">
                         <tr>
+                            <th>Image</th>
                             {columns.map((col) => (
+                                <>
                                 <th key={col.dataKey}>{col.label}</th>
+                                </>
+                                
                             ))}
                             <th>Actions</th>
                         </tr>
@@ -237,8 +241,11 @@ const DataTable = ({ columns, data, onEditRow, onViewRow, onDeleteRow }) => {
                     <tbody>
                         {filteredData.map((row, index) => (
                             <tr key={index}>
+                                <td><img src={row.maintainceEvidenceImage} alt="" width={80} height={80} /></td>
                                 {columns.map((col) => (
-                                    <td key={col.dataKey}>{row[col.dataKey]}</td>
+                                    <>
+                                    <td key={col.dataKey}>{row[col.dataKey]}</td></>
+                                    
                                 ))}
                                 <td>
                                     <button
