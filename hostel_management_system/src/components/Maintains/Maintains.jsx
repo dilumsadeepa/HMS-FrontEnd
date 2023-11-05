@@ -6,8 +6,14 @@ import DataTable from "../DataTable/DataTable";
 import axios from "axios";
 import Apiurl from "../ApiURL";
 
+import Swal from 'sweetalert2';
+
+import { useNavigate } from 'react-router-dom';
+
 
 const Maintains = () => {
+
+    const navigate = useNavigate();
 
     const [maintaince, setMaintaince] = useState([]);
 
@@ -50,8 +56,28 @@ const Maintains = () => {
 
     const data = nedata;
 
+    const deleteMaintaince = async (id) =>{
+        try {
+            const responce = await axios.delete(`${Apiurl}/maintaince/delete/${id}`);
+            Swal.fire({
+                title: "Delete Successful!",
+                text: responce.data,
+                icon: "success",
+                button: "OK",
+            })
+            getMaintaince();
+        } catch (error) {
+            Swal.fire({
+                title: "Error",
+                text: error,
+                icon: "error",
+                button: "OK",
+              });
+        }
+    }
+
     const handleEditRow = (rowData) => {
-        // Implement the logic to edit the row data
+        navigate(`/editmaintaince/${rowData.maintenanceId}`)
     };
 
     const handleViewRow = (rowData) => {
@@ -59,7 +85,7 @@ const Maintains = () => {
     };
 
     const handleDeleteRow = (rowData) => {
-        // Implement the logic to delete the row data
+        deleteMaintaince(rowData.maintenanceId);
     };
 
 

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useCookies } from 'react-cookie';
+import { Link } from 'react-router-dom';
 
 
 
@@ -9,6 +10,7 @@ const AdminNavbar = () => {
   const [cookies, setCookie] = useCookies(['user']);
 
   const userRole = cookies.user ? cookies.user.role : null;
+  const userID = cookies.user ? cookies.user.id : null;
 
   const renderLinksBasedOnRole = (role) => {
     switch (role) {
@@ -152,17 +154,14 @@ const AdminNavbar = () => {
 
 
           <li className="nav-item">
-            <a className="nav-link active" href="/">
+            <a className="nav-link active" href="/dashboard">
               <i className="fas fa-tachometer-alt"></i>
               <span>Dashboard</span>
             </a>
           </li>
           {userRole && renderLinksBasedOnRole(userRole)}
           <li className="nav-item">
-            <a className="nav-link" href="profile.html">
-              <i className="fas fa-user"></i>
-              <span>Profile</span>
-            </a>
+            <Link to={`/profile/${userID}`} className='nav-link'><i class="bi bi-person-square"></i> Profile</Link>
           </li>
 
 

@@ -4,13 +4,13 @@ import AdminTopBar from "../Admin/AdminTopBar";
 import axios from "axios";
 import Apiurl from "../ApiURL";
 import Swal from 'sweetalert2';
-import CloudinaryUpload from "../FileUpload/CloudinaryUpload";
+import { useParams, useNavigate } from 'react-router-dom';
 
 
 
+const EditMaintaince = () => {
 
-
-const AddMaintaince = () => {
+    const navigate = useNavigate();
 
     const divStyle = {
         boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
@@ -18,7 +18,7 @@ const AddMaintaince = () => {
         color: 'black',
     };
 
-    
+    const { id } = useParams();
 
 
     const [complaintId, setComplaintId] = useState('');
@@ -31,20 +31,12 @@ const AddMaintaince = () => {
 
     const [complaints, setComplaints] = useState([]);
 
-    const [uploadedUrl, setUploadedUrl] = useState('');
-
-    const handleUploadedUrl = (url) => {
-        setUploadedUrl(url);
-        setEvidenceImage(url);
-        
-    };
-
     const AddMaint = async () => {
 
        
         
         try {
-            const maintaince = await axios.post(`${Apiurl}/maintaince/create`, {
+            const maintaince = await axios.put(`${Apiurl}/maintaince/update`, {
                 complaintId,
                 handler,
                 status,
@@ -58,15 +50,12 @@ const AddMaintaince = () => {
                 text: maintaince.data.maintenanceId,
                 icon: "success",
                 button: "OK",
-            })
+            }).then(() => {
+                navigate('/maintains');
+  
+              });
 
-            setComplaintId("")
-            setHandler("")
-            setStatus("")
-            setInspectionNote("")
-            setSolution("")
-            setEvidenceImage("")
-            setDate("")
+            
 
 
         } catch (error) {
@@ -79,17 +68,24 @@ const AddMaintaince = () => {
         }
     }
 
-    const getComplaint = async () => {
+    const getMaintains = async () => {
         try {
-            const response = await axios.get(`${Apiurl}/complaint/all`);
+            const response = await axios.get(`${Apiurl}/maintaince/${id}`);
             setComplaints(response.data);
+            setComplaintId(response.data.complaintId)
+            setHandler(response.data.handler)
+            setStatus(response.data.status)
+            setInspectionNote(response.data.inspectionNote)
+            setSolution(response.data.solution)
+            setEvidenceImage(response.data.evidenceImage)
+            setDate(response.data.date)
         } catch (error) {
             console.log(error);
         }
     }
 
     useEffect(() => {
-        getComplaint();
+        getMaintains();
     }, [])
 
 
@@ -123,9 +119,9 @@ const AddMaintaince = () => {
                                                         name="complaintId"
                                                         onChange={(e) => setComplaintId(e.target.value)}
                                                     >
-                                                        {complaints.map((co) => (
-                                                            <option value={co.complaintId}>{co.complaint}{co.complaintDate}</option>
-                                                        ))}
+                                                        
+                                                            <option value={complaintId}>{complaintId}</option>
+                                                        
 
                                                     </select>
                                                 </div>
@@ -137,6 +133,7 @@ const AddMaintaince = () => {
                                                         id="handler"
                                                         name="handler"
                                                         placeholder="Enter Handler"
+                                                        value={handler}
                                                         onChange={(e) => setHandler(e.target.value)}
                                                     />
                                                 </div>
@@ -146,6 +143,7 @@ const AddMaintaince = () => {
                                                         className="form-select"
                                                         id="status"
                                                         name="status"
+                                                        value={status}
                                                         onChange={(e) => setStatus(e.target.value)}
                                                     >
                                                         {/* Add options based on your data */}
@@ -163,6 +161,7 @@ const AddMaintaince = () => {
                                                         id="inspectionNote"
                                                         name="inspectionNote"
                                                         placeholder="Enter Inspection Note"
+                                                        value={inspectionNote}
                                                         onChange={(e) => setInspectionNote(e.target.value)}
                                                     />
                                                 </div>
@@ -174,19 +173,19 @@ const AddMaintaince = () => {
                                                         id="solution"
                                                         name="solution"
                                                         placeholder="Enter Solution"
+                                                        value={solution}
                                                         onChange={(e) => setSolution(e.target.value)}
                                                     />
                                                 </div>
                                                 <div className="mb-3">
                                                     <label htmlFor="evidenceImage" className="form-label">Evidence Image:</label>
-                                                    <CloudinaryUpload handleUploadedUrl={handleUploadedUrl} />
                                                     <input
                                                         type="text"
                                                         className="form-control"
                                                         id="evidenceImage"
                                                         name="evidenceImage"
                                                         placeholder="Enter Evidence Image"
-                                                        value={uploadedUrl}
+                                                        value={evidenceImage}
                                                         onChange={(e) => setEvidenceImage(e.target.value)}
                                                     />
                                                 </div>
@@ -198,6 +197,7 @@ const AddMaintaince = () => {
                                                         id="date"
                                                         name="date"
                                                         placeholder="Enter Date"
+                                                        value={date}
                                                         onChange={(e) => setDate(e.target.value)}
                                                     />
                                                 </div>
@@ -218,4 +218,4 @@ const AddMaintaince = () => {
 }
 
 
-export default AddMaintaince;
+export default EditMaintaince;
