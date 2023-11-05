@@ -31,6 +31,14 @@ const AddMaintaince = () => {
 
     const [complaints, setComplaints] = useState([]);
 
+    const [uploadedUrl, setUploadedUrl] = useState('');
+
+    const handleUploadedUrl = (url) => {
+        setUploadedUrl(url);
+        setEvidenceImage(url);
+        
+    };
+
     const AddMaint = async () => {
 
        
@@ -171,13 +179,14 @@ const AddMaintaince = () => {
                                                 </div>
                                                 <div className="mb-3">
                                                     <label htmlFor="evidenceImage" className="form-label">Evidence Image:</label>
-                                                    <CloudinaryUpload />
+                                                    <CloudinaryUpload handleUploadedUrl={handleUploadedUrl} />
                                                     <input
                                                         type="text"
                                                         className="form-control"
                                                         id="evidenceImage"
                                                         name="evidenceImage"
                                                         placeholder="Enter Evidence Image"
+                                                        value={uploadedUrl}
                                                         onChange={(e) => setEvidenceImage(e.target.value)}
                                                     />
                                                 </div>
