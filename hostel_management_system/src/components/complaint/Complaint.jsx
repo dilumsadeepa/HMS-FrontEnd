@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
-import AdminNavbar from "./AdminNavbar";
-import AdminTopBar from "./AdminTopBar";
-import AdminFooter from "./AdminFooter";
-import DashboardTables from "./DashboardTables";
+import AdminNavbar from "../Admin/AdminNavbar";
+import AdminTopBar from "../Admin/AdminTopBar";
+import AdminFooter from "../Admin/AdminFooter";
+import DashboardTables from "../Admin/DashboardTables";
 import { useNavigate } from 'react-router-dom';
 import Apiurl from "../ApiURL";
 import axios from 'axios';
@@ -45,7 +45,7 @@ const Complaint = () => {
         console.log(data);
 
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching complaint data:', error);
       }
     };
 
@@ -240,7 +240,7 @@ const handleShowModal = (complaintId) => {
             <AdminTopBar />
             <div className="container-fluid">
               <div className="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
-                <h3 className="text-dark mb-0">Dashboard</h3>
+                <h3 className="text-dark mb-0">Complaints</h3>
                 <a
                   className="btn btn-primary btn"
                   role="button"
