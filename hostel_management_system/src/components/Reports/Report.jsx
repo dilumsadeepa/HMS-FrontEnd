@@ -10,7 +10,6 @@ import "jspdf-autotable";
 // import AdminFooter from "../Admin/AdminFooter";
 
 export default function Report() {
-
   // -----------------------------------------------------------------------------------------------
   // Complaints Reports-----------------------------------------------------------------------------------------------
   // -----------------------------------------------------------------------------------------------
@@ -80,9 +79,9 @@ export default function Report() {
       setReportIData(response.data);
     } catch (error) {}
   };
-//-------------------------------------------------------------------------------------------------------------------------------
-  //generate PDF 
-//Complaint_Report
+  //-------------------------------------------------------------------------------------------------------------------------------
+  //generate PDF
+  //Complaint_Report
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.text("Maintenance Report", 10, 10);
@@ -101,23 +100,24 @@ export default function Report() {
 
   //-----------------------------------------------------------
 
-  //generate PDF 
-//Inspection Report
-const generateIPDF = () => {
-  const doc = new jsPDF();
-  doc.text("Inspection Report", 10, 10);
-  doc.autoTable({
-    startY: 20,
-    head: [["Complaint ID", "Complaint", "Status", "Inspection_Note"]],
-    body: reportIData.map((reportI) => [
-      reportI.complaintId,
-      reportI.complaint,
-      reportI.status,
-      reportI.inspectionNote,
-    ]),
-  });
-  doc.save("Inspection_Report.pdf");
-};
+  //generate PDF
+  //Inspection Report
+
+  const generateIPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Inspection Report", 10, 10);
+    doc.autoTable({
+      startY: 20,
+      head: [["Complaint ID", "Complaint", "Status", "Inspection_Note"]],
+      body: reportIData.map((reportI) => [
+        reportI.complaintId,
+        reportI.complaint,
+        reportI.status,
+        reportI.inspectionNote,
+      ]),
+    });
+    doc.save("Inspection_Report.pdf");
+  };
 
   return (
     <div id="page-top">
@@ -161,7 +161,7 @@ const generateIPDF = () => {
                 </div>
                 <br />
                 <button className="btn btn-primary" onClick={handleViewReports}>
-                 <b>View Reports</b> 
+                  <b>View Reports</b>
                 </button>
 
                 {reportData.length > 0 && (
@@ -199,11 +199,12 @@ const generateIPDF = () => {
                 </button>
               </div>
             </div>
-{/* ------------------------------------------------------------------------------- */}
+            {/* ------------------------------------------------------------------------------- */}
             {/* generate report two */}
             {/* ------------------------------------------------------------------------------- */}
 
             <br></br>
+            <hr />
 
             <div className="card">
               <div className="card-body">
@@ -234,7 +235,7 @@ const generateIPDF = () => {
                   className="btn btn-primary"
                   onClick={handleViewIReports}
                 >
-                 <b>View Reports</b> 
+                  <b>View Reports</b>
                 </button>
 
                 {reportIData.length > 0 && (
