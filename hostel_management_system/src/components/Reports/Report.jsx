@@ -7,7 +7,7 @@ import axios from "axios";
 
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import AdminFooter from "../Admin/AdminFooter";
+// import AdminFooter from "../Admin/AdminFooter";
 
 export default function Report() {
 
@@ -204,8 +204,7 @@ const generateIPDF = () => {
             {/* ------------------------------------------------------------------------------- */}
 
             <br></br>
-            <hr></hr>
-        
+
             <div className="card">
               <div className="card-body">
                 <h2 className="card-title">
@@ -273,15 +272,12 @@ const generateIPDF = () => {
                 </button>
               </div>
             </div>
-          
 
             {/* content white block ending */}
-            <AdminFooter/>
           </div>
         </div>
       </div>
     </div>
-    
 
     // -----------
   );
