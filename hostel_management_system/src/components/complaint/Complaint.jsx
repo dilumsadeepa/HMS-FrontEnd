@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import AdminNavbar from "../Admin/AdminNavbar";
 import AdminTopBar from "../Admin/AdminTopBar";
 import AdminFooter from "../Admin/AdminFooter";
-import DashboardTables from "../Admin/DashboardTables";
 import { useNavigate } from 'react-router-dom';
 import Apiurl from "../ApiURL";
 import axios from 'axios';
