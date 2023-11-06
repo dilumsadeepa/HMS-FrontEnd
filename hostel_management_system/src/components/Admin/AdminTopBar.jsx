@@ -78,7 +78,7 @@ const AdminTopBar = () => {
             <li className="nav-item dropdown no-arrow mx-1">
               <div className="nav-item dropdown no-arrow">
                 <a className="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
-                  <span className="badge bg-danger badge-counter">3+</span>
+                  <span className="badge bg-danger badge-counter">+</span>
                   <i className="fas fa-bell fa-fw"></i>
                 </a>
                 <div className="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
@@ -105,31 +105,7 @@ const AdminTopBar = () => {
                 </div>
               </div>
             </li>
-            <li className="nav-item dropdown no-arrow mx-1">
-              <div className="nav-item dropdown no-arrow">
-                <a className="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
-                  <span className="badge bg-danger badge-counter">7</span>
-                  <i className="fas fa-envelope fa-fw"></i>
-                </a>
-                <div className="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
-                  <h6 className="dropdown-header">alerts center</h6>
-                  <a className="dropdown-item d-flex align-items-center" href="#">
-                    <div className="dropdown-list-image me-3">
-                      <img className="rounded-circle" src="assets/img/avatars/avatar4.jpeg" alt="User Avatar" />
-                      <div className="bg-success status-indicator"></div>
-                    </div>
-                    <div className="fw-bold">
-                      <div className="text-truncate">
-                        <span>Hi there! I am wondering if you can help me with a problem I've been having.</span>
-                      </div>
-                      <p className="small text-gray-500 mb-0">Emily Fowler - 58m</p>
-                    </div>
-                  </a>
-                  <a className="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                </div>
-              </div>
-              <div className="shadow dropdown-list dropdown-menu dropdown-menu-end" aria-labelledby="alertsDropdown"></div>
-            </li>
+
             <div className="d-none d-sm-block topbar-divider"></div>
             <li className="nav-item dropdown no-arrow">
               <div className="nav-item dropdown no-arrow">

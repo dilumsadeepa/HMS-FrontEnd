@@ -81,69 +81,77 @@ const AdminHome = () => {
               </div>
               <div className="row">
 
-              <div className="col-md-6 col-xl-3 mb-4">
-                <div className="card shadow border-start-primary py-2">
-                  <div className="card-body">
-                    <div className="row align-items-center no-gutters">
-                      <div className="col me-2">
-                        <div className="text-uppercase text-primary fw-bold text-xs mb-1"><span>Total Complaints</span></div>
-                        <div className="text-dark fw-bold h5 mb-0"><span>{totalComplaintsCount}</span></div>
-                      </div>
-                      <div className="col-auto">
-                      <i className="fa-solid fa-clipboard fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-md-6 col-xl-3 mb-4">
-                <div className="card shadow border-start-success py-2">
-                  <div className="card-body">
-                    <div className="row align-items-center no-gutters">
-                      <div className="col me-2">
-                        <div className="text-uppercase text-primary fw-bold text-xs mb-1"><span>Resolved Complaints</span></div>
-                        <div className="text-dark fw-bold h5 mb-0"><span>{resolvedComplaintsCount}</span></div>
-                      </div>
-                      <div className="col-auto">
-                      <i className="fa-solid fa-clipboard fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                </div>
-
-                <div className="col-md-6 col-xl-3 mb-4">
-                <div className="card shadow border-start-warning py-2">
-                  <div className="card-body">
-                    <div className="row align-items-center no-gutters">
-                      <div className="col me-2">
-                        <div className="text-uppercase text-danger fw-bold text-xs mb-1"><span>Pending Complaints</span></div>
-                        <div className="text-dark fw-bold h5 mb-0"><span>{pendingComplaintsCount}</span></div>
-                      </div>
-                      <div className="col-auto">
-                        <i className="fa-solid fa-clipboard fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                  </div>
-                  </div>
-
-                  <div className="col-md-6 col-xl-3 mb-4">
-                  <div className="card shadow border-start-info py-2">
-                    <div className="card-body">
-                      <div className="row align-items-center no-gutters">
-                        <div className="col me-2">
-                          <div className="text-uppercase text-primary fw-bold text-xs mb-1"><span>In Progress Complaints</span></div>
-                          <div className="text-dark fw-bold h5 mb-0"><span>{inProgressComplaintsCount}</span></div>
+              {cookies.user.role !== 6 ? (
+            <>
+          <div className="col-md-6 col-xl-3 mb-4">
+                          <div className="card shadow border-start-primary py-2">
+                            <div className="card-body">
+                              <div className="row align-items-center no-gutters">
+                                <div className="col me-2">
+                                  <div className="text-uppercase text-primary fw-bold text-xs mb-1"><span>Total Complaints</span></div>
+                                  <div className="text-dark fw-bold h5 mb-0"><span>{totalComplaintsCount}</span></div>
+                                </div>
+                                <div className="col-auto">
+                                <i className="fa-solid fa-clipboard fa-2x text-gray-300"></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="col-auto">
-                          <i className="fa-solid fa-clipboard fa-2x text-gray-300"></i>
-                        </div>
-                      </div>
-                    </div>
-                    </div>
-                    </div>
+
+                        <div className="col-md-6 col-xl-3 mb-4">
+                          <div className="card shadow border-start-success py-2">
+                            <div className="card-body">
+                              <div className="row align-items-center no-gutters">
+                                <div className="col me-2">
+                                  <div className="text-uppercase text-primary fw-bold text-xs mb-1"><span>Resolved Complaints</span></div>
+                                  <div className="text-dark fw-bold h5 mb-0"><span>{resolvedComplaintsCount}</span></div>
+                                </div>
+                                <div className="col-auto">
+                                <i className="fa-solid fa-clipboard fa-2x text-gray-300"></i>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          </div>
+
+                          <div className="col-md-6 col-xl-3 mb-4">
+                          <div className="card shadow border-start-warning py-2">
+                            <div className="card-body">
+                              <div className="row align-items-center no-gutters">
+                                <div className="col me-2">
+                                  <div className="text-uppercase text-danger fw-bold text-xs mb-1"><span>Pending Complaints</span></div>
+                                  <div className="text-dark fw-bold h5 mb-0"><span>{pendingComplaintsCount}</span></div>
+                                </div>
+                                <div className="col-auto">
+                                  <i className="fa-solid fa-clipboard fa-2x text-gray-300"></i>
+                                </div>
+                              </div>
+                            </div>
+                            </div>
+                            </div>
+
+                            <div className="col-md-6 col-xl-3 mb-4">
+                            <div className="card shadow border-start-info py-2">
+                              <div className="card-body">
+                                <div className="row align-items-center no-gutters">
+                                  <div className="col me-2">
+                                    <div className="text-uppercase text-primary fw-bold text-xs mb-1"><span>In Progress Complaints</span></div>
+                                    <div className="text-dark fw-bold h5 mb-0"><span>{inProgressComplaintsCount}</span></div>
+                                  </div>
+                                  <div className="col-auto">
+                                    <i className="fa-solid fa-clipboard fa-2x text-gray-300"></i>
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+                              </div>
+          </>
+
+          ) : null
+          }
+
+              
 
         
               </div>
