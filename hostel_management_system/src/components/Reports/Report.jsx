@@ -10,6 +10,11 @@ import "jspdf-autotable";
 // import AdminFooter from "../Admin/AdminFooter";
 
 export default function Report() {
+
+  // -----------------------------------------------------------------------------------------------
+  // Complaints Reports-----------------------------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------------------------
+
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [reportData, setReportData] = useState([]);
@@ -40,52 +45,44 @@ export default function Report() {
       setReportData(response.data);
     } catch (error) {}
   };
-    // const apiUrl = `http://localhost:8080/report-mp/generateReportmp?startComplaintDate=${formattedStartDate}&endComplaintDate=${formattedEndDate}`;
 
-    // fetch(apiUrl)
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     setReportData(data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching data:", error);
-    //   });
-// --------------------------------------------------------------------------------
-    const [startIDate, setStartIDate] = useState("");
-    const [endIDate, setEndIDate] = useState("");
-    const [reportIData, setReportIData] = useState([]);
-  
-    const handleStartIDateChange = (e) => {
-      setStartIDate(e.target.value);
-    };
-  
-    const handleEndIDateChange = (e) => {
-      setEndIDate(e.target.value);
-    };
-  
-    const handleViewIReports = async () => {
-      // Convert the date values to strings
-      const formattedIStartDate = new Date(startIDate).toISOString();
-      const formattedIEndDate = new Date(endIDate).toISOString();
-  
-      // Make an API request
-  
-      try {
-        const response = await axios.post(
-          `http://localhost:8080/complaint-status/report-status`,
-          {
-            startDate: startIDate,
-            endDate: endIDate,
-          }
-        );
-        setReportIData(response.data);
-      } catch (error) {}
-    };
+  // ------------------------------------------------------------------------------------------------------------------
+  //Inspections Reports
+  // ------------------------------------------------------------------------------------------------------------------
 
+  const [startIDate, setStartIDate] = useState("");
+  const [endIDate, setEndIDate] = useState("");
+  const [reportIData, setReportIData] = useState([]);
 
+  const handleStartIDateChange = (e) => {
+    setStartIDate(e.target.value);
+  };
 
-  //generate PDF
+  const handleEndIDateChange = (e) => {
+    setEndIDate(e.target.value);
+  };
 
+  const handleViewIReports = async () => {
+    // Convert the date values to strings
+    const formattedIStartDate = new Date(startIDate).toISOString();
+    const formattedIEndDate = new Date(endIDate).toISOString();
+
+    // Make an API request
+
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/complaint-status/report-status`,
+        {
+          startDate: startIDate,
+          endDate: endIDate,
+        }
+      );
+      setReportIData(response.data);
+    } catch (error) {}
+  };
+//-------------------------------------------------------------------------------------------------------------------------------
+  //generate PDF 
+//Complaint_Report
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.text("Maintenance Report", 10, 10);
@@ -102,6 +99,26 @@ export default function Report() {
     doc.save("maintenance_report.pdf");
   };
 
+  //-----------------------------------------------------------
+
+  //generate PDF 
+//Inspection Report
+const generateIPDF = () => {
+  const doc = new jsPDF();
+  doc.text("Inspection Report", 10, 10);
+  doc.autoTable({
+    startY: 20,
+    head: [["Complaint ID", "Complaint", "Status", "Inspection_Note"]],
+    body: reportIData.map((reportI) => [
+      reportI.complaintId,
+      reportI.complaint,
+      reportI.status,
+      reportI.inspectionNote,
+    ]),
+  });
+  doc.save("Inspection_Report.pdf");
+};
+
   return (
     <div id="page-top">
       <div id="wrapper">
@@ -111,6 +128,10 @@ export default function Report() {
             <AdminTopBar />
 
             {/* content white block */}
+
+            {/* ------------------------------------------------------------------------------- */}
+            {/* generate report two */}
+            {/* ------------------------------------------------------------------------------- */}
 
             <div className="card">
               <div className="card-body">
@@ -140,7 +161,7 @@ export default function Report() {
                 </div>
                 <br />
                 <button className="btn btn-primary" onClick={handleViewReports}>
-                  View Reports
+                 <b>View Reports</b> 
                 </button>
 
                 {reportData.length > 0 && (
@@ -173,30 +194,23 @@ export default function Report() {
                   </div>
                 )}
                 <hr></hr>
-                <button className="btn btn-primary" onClick={generatePDF}>
-                  Generate PDF
+                <button className="btn btn-danger" onClick={generatePDF}>
+                  <b>Generate PDF</b>
                 </button>
               </div>
             </div>
+{/* ------------------------------------------------------------------------------- */}
+            {/* generate report two */}
+            {/* ------------------------------------------------------------------------------- */}
 
+            <br></br>
 
-{/* generate report two */}
-{/* ////////////////////////////////////////////////////////////
-////////////////////////////////////////////
-/////////////////////////////
-///////////////////
-/////////// */}
-
-<br></br>
-
-<div className="card">
+            <div className="card">
               <div className="card-body">
                 <h2 className="card-title">
                   <b>Inspections Reports</b>
                 </h2>
-                <p className="card-text">
-                
-                </p>
+                <p className="card-text"></p>
                 <div className="form-group">
                   <label>Start Date</label>
                   <input
@@ -216,8 +230,11 @@ export default function Report() {
                   />
                 </div>
                 <br />
-                <button className="btn btn-primary" onClick={handleViewIReports}>
-                  View Reports
+                <button
+                  className="btn btn-primary"
+                  onClick={handleViewIReports}
+                >
+                 <b>View Reports</b> 
                 </button>
 
                 {reportIData.length > 0 && (
@@ -250,13 +267,11 @@ export default function Report() {
                   </div>
                 )}
                 <hr></hr>
-                <button className="btn btn-primary" onClick={generatePDF}>
-                  Generate PDF
+                <button className="btn btn-danger" onClick={generateIPDF}>
+                  <b>Generate PDF</b>
                 </button>
               </div>
             </div>
-
-
 
             {/* content white block ending */}
           </div>
