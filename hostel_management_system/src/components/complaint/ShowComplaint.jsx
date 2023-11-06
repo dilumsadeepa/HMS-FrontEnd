@@ -4,9 +4,9 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Apiurl from '../ApiURL';
 import * as Yup from 'yup';
 import axios from 'axios';
-import AdminNavbar from './AdminNavbar';
-import AdminTopBar from './AdminTopBar';
-import AdminFooter from './AdminFooter';
+import AdminNavbar from '../Admin/AdminNavbar';
+import AdminTopBar from '../Admin/AdminTopBar';
+import AdminFooter from '../Admin/AdminFooter';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 
 const ShowComplaint = () => {

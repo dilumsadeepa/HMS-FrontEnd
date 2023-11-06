@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
-import AdminNavbar from "./AdminNavbar";
-import AdminTopBar from "./AdminTopBar";
-import AdminFooter from "./AdminFooter";
+import AdminNavbar from "../Admin/AdminNavbar";
+import AdminTopBar from "../Admin/AdminTopBar";
+import AdminFooter from "../Admin/AdminFooter";
 import { Formik, Form, Field, ErrorMessage } from "formik";  //use for form handling
 import Apiurl from '../ApiURL';
 import * as Yup from "yup";   //use for validation purposes
@@ -31,6 +31,8 @@ const CreateNewComplaint = () => {
 
     const currentDate = `${year}-${month}-${day}`;
 
+
+    // ----------cloudinary image uplaoding ----------
     const handleUploadedUrl = (url) => {
       setUploadedUrl(url);
       setEvidenceImage(url);
@@ -38,7 +40,7 @@ const CreateNewComplaint = () => {
   };
 
    
-
+    // ----------QR Scanning Functions Start here ----------
       useEffect(() => {
         if(scanResult){
         const fetchResourceData = async () => {
@@ -87,6 +89,7 @@ const CreateNewComplaint = () => {
       setresourceNumber(event.target.value);
     }
 
+  // ----------QR Scanning Functions End here ----------
 
     let navigate = useNavigate();
     const initialValues = {
@@ -103,7 +106,7 @@ const CreateNewComplaint = () => {
         console.log(data);
         axios.post(`${Apiurl}/complaint/add`, data)
             .then((response) => { 
-            navigate("/");   //return to  root page after creating new post
+            navigate("/complaints");   //return to  root page after creating new post
         });
     };
 
