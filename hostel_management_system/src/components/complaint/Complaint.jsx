@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import AdminNavbar from "../Admin/AdminNavbar";
 import AdminTopBar from "../Admin/AdminTopBar";
 import AdminFooter from "../Admin/AdminFooter";
-import DashboardTables from "../Admin/DashboardTables";
 import { useNavigate } from 'react-router-dom';
 import Apiurl from "../ApiURL";
 import axios from 'axios';
@@ -22,9 +21,28 @@ import "datatables.net-buttons/js/buttons.colVis.js";
 import "datatables.net-buttons/js/buttons.flash.js";
 import "pdfmake/build/pdfmake.js";
 import "pdfmake/build/vfs_fonts.js";
-
+import { useCookies } from 'react-cookie';
 
 const Complaint = () => {
+
+  const [cookies] = useCookies(['role']);
+  console.log('cookies.user.role: ' + cookies.user.role);
+  console.log(cookies.user.id);
+  
+  let complaintapi; // Declare complaintapi in the outer scope
+  
+  useEffect(() => {
+    // Function to set the API URL based on cookies.user.role
+    if (cookies.user.role === 6) {
+      complaintapi = `${Apiurl}/complaint/user/${cookies.user.id}`;
+    } else {
+      complaintapi = `${Apiurl}/complaint/all`;
+    }
+  
+    // Now you can use complaintapi in the rest of your code
+  }, [cookies.user.role]);
+
+
     const tableRef = useRef(null);
     const [complaints, setComplaints] = useState([]);
     const [showModal, setShowModal] = useState(false);
@@ -39,7 +57,7 @@ const Complaint = () => {
     const fetchDataAndInitializeTable = async () => {
       try {
         // Fetch data from the API
-        const response = await axios.get(`${Apiurl}/complaint/all`);
+        const response = await axios.get(`${complaintapi}`);
         const data = response.data;
         setComplaints(data);
         console.log(data);
@@ -59,7 +77,7 @@ const Complaint = () => {
     // Fetch your data here, for example:
  
       const fetchData = async () => {
-        const response = await fetch(`${Apiurl}/complaint/all`);
+        const response = await fetch(`${complaintapi}`);
         const data = await response.json();
     
         if ($.fn.DataTable.isDataTable(tableRef.current)) {

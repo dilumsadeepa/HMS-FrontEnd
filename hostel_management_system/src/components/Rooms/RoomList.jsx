@@ -22,13 +22,19 @@ import "datatables.net-buttons/js/buttons.flash.js";
 import "pdfmake/build/pdfmake.js";
 import "pdfmake/build/vfs_fonts.js";
 
+
+
 const RoomList = () => {
+
+
 
     const tableRef = useRef(null);
     const [rooms, setRooms] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [roomObject, setRoomObject] = useState({});
     const [deleteObject, setDeleteObject] = useState(null);
+    const [complaintMaintenanceRecord, setComplaintMaintenanceRecord] = useState([]);
+    const [complaintId, setComplaintId] = useState(null);
     let navigate = useNavigate();    //useNavigate is a hook to navigate to another page
 
     const MySwal = withReactContent(Swal) // Create a new instance of SweetAlert with React content
@@ -51,6 +57,28 @@ const RoomList = () => {
     // Call the fetchDataAndInitializeTable function
     fetchDataAndInitializeTable();
   }, []);
+
+
+
+  const findComplaintMaintenanceRecordByComplaintId = async (complaintId) => {
+    try {
+      const response = await axios.get(`${Apiurl}/res/resources?roomNumber=${complaintId}`);
+      setComplaintMaintenanceRecord(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching complaint maintenance record by complaintId:', error);
+    }
+  };
+
+
+  useEffect(() => {
+    console.log('complaintId : '+ complaintId);
+    if (complaintId) {
+      findComplaintMaintenanceRecordByComplaintId(complaintId);
+      console.log('complaintMaintenanceRecord');
+      console.log(complaintMaintenanceRecord);
+    }
+  }, [complaintId]);
 
  
   
@@ -171,6 +199,7 @@ const RoomList = () => {
 
 
     const handleShowModal = (roomId) => {
+        setComplaintId(roomId);
         axios.get(`${Apiurl}/rooms/${roomId}`).then((response) => {
         setRoomObject(response.data);
         setShowModal(true);
@@ -274,10 +303,18 @@ const RoomList = () => {
                                                 <h2 className="text-center mb-5" style={{ fontFamily: 'Merriweather', fontWeight:700, }}>Room Details</h2>
                                                 <p className="my-1" style={{fontWeight:700, }}>Room No: {roomObject.roomNo}</p>
                                                 <p className="my-1" style={{fontWeight:700, }}>Hostel No: {roomObject.hostelNo}</p>
-                                                <p className="my-1" style={{fontWeight:700, }}>Floor No: {roomObject.floorNo}</p>
+                                                <p className="mb-5" style={{fontWeight:700, }}>Floor No: {roomObject.floorNo}</p>
                                                
   
-
+                                                <ul className="list-group">
+                                                {complaintMaintenanceRecord.map((item, index) => (
+                                                  <li key={index} className="list-group-item">
+                                                    Resource ID: {item[0]}<br />
+                                                    Resource Name: {item[2]}<br />
+                                                    Status: {item[4]}<br />
+                                                  </li>
+                                                ))}
+                                              </ul>
   
   
                                                 </div>

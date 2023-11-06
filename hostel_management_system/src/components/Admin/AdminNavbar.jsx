@@ -30,6 +30,12 @@ const AdminNavbar = () => {
               </a>
             </li>
             <li className="nav-item">
+              <a className="nav-link" href="/rooms">
+                <i className="fas fa-home"></i>
+                <span>Room</span>
+              </a>
+            </li>
+            <li className="nav-item">
               <a className="nav-link" href="/maintains">
                 <i className="fas fa-table"></i>
                 <span>Maintains</span>
@@ -71,6 +77,12 @@ const AdminNavbar = () => {
                 <span>Asset</span>
               </a>
             </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/reports">
+                <i className="fas fa-table"></i>
+                <span>Reports</span>
+              </a>
+            </li>
           </>
         );
       case 3:
@@ -94,6 +106,12 @@ const AdminNavbar = () => {
         return (
           <>
             <li className="nav-item">
+              <a className="nav-link" href="/rooms">
+                <i className="fas fa-home"></i>
+                <span>Room</span>
+              </a>
+            </li>
+            <li className="nav-item">
               <a className="nav-link" href="/maintains">
                 <i className="fas fa-table"></i>
                 <span>Maintains</span>
@@ -105,11 +123,23 @@ const AdminNavbar = () => {
                 <span>Complaints</span>
               </a>
             </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/reports">
+                <i className="fas fa-table"></i>
+                <span>Reports</span>
+              </a>
+            </li>
             </>
         );
       case 5:
         return (
-          <>
+          <>  
+            <li className="nav-item">
+            <a className="nav-link" href="/rooms">
+              <i className="fas fa-home"></i>
+              <span>Room</span>
+            </a>
+          </li>
             <li className="nav-item">
               <a className="nav-link" href="/maintains">
                 <i className="fas fa-table"></i>
@@ -121,7 +151,14 @@ const AdminNavbar = () => {
                 <span>Complaints</span>
               </a>
             </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/reports">
+                <i className="fas fa-table"></i>
+                <span>Reports</span>
+              </a>
             </li>
+            </li>
+           
           </>
         );
       case 6:
