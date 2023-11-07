@@ -48,9 +48,35 @@ const Complaint = () => {
     const [showModal, setShowModal] = useState(false);
     const [complaintObject, setComplaintObject] = useState({});
     const [deleteObject, setDeleteObject] = useState(null);
+    const [complaintId, setComplaintId] = useState(null);
+    const [complaintMaintenanceRecord, setComplaintMaintenanceRecord] = useState([]);
     let navigate = useNavigate();    //useNavigate is a hook to navigate to another page
 
     const MySwal = withReactContent(Swal) // Create a new instance of SweetAlert with React content
+
+
+    const findComplaintMaintenanceRecordByComplaintId = async (complaintId) => {
+      try {
+        const response = await axios.get(`${Apiurl}/complaint_maintenance/find/${complaintId}`);
+        setComplaintMaintenanceRecord(response.data);
+        console.log('complaintMaintenanceRecord');
+        console.log(complaintMaintenanceRecord);
+      } catch (error) {
+        console.error('Error fetching complaint maintenance record by complaintId:', error);
+      }
+    };
+
+
+    useEffect(() => {
+      console.log('complaintId : '+ complaintId);
+      if (complaintId) {
+        findComplaintMaintenanceRecordByComplaintId(complaintId);
+        console.log('complaintMaintenanceRecord');
+        console.log(complaintMaintenanceRecord);
+      }
+    }, [complaintId]);
+
+    
 
   useEffect(() => {
     // Function to fetch data from the API and initialize the DataTable
@@ -241,7 +267,9 @@ const handleDeleteComplaint = (noticeId) => {
 
 
 const handleShowModal = (complaintId) => {
+    setComplaintId(complaintId);
     axios.get(`${Apiurl}/complaint/find/${complaintId}`).then((response) => {
+      
       setComplaintObject(response.data);
       setShowModal(true);
     
@@ -375,7 +403,23 @@ const handleShowModal = (complaintId) => {
                                                   </div>
                                               )}
 
-{complaintObject.evidenceImage ? (
+                                              {complaintMaintenanceRecord ? (
+                                                <>
+                                                  {complaintMaintenanceRecord ? (
+                                                    <div className="alert alert-success" role="alert">
+                                                      <p><strong>Summary</strong></p>
+                                                      <p>Complaint Id: {complaintMaintenanceRecord.complaintId}</p>
+                                                      <p>Maintaince Id: {complaintMaintenanceRecord.maintenanceId}</p>
+                                                      <p>Maintain Handler: {complaintMaintenanceRecord.maintenanceHandler}</p>
+                                                      <p>Complaint Record Date: {complaintMaintenanceRecord.complaintDate}</p>
+                                                      <p>Complaint Record Status: {complaintMaintenanceRecord.complaintStatus}</p>
+                                                      <p>Maintain Status: {complaintMaintenanceRecord.maintenanceStatus}</p>
+                                                    </div>
+                                                  ) : null}
+                                                </>
+                                              ) : null}
+
+                                        {complaintObject.evidenceImage ? (
                                                 <div
                                                   className="mb-3"
                                                   style={{
